@@ -21,7 +21,6 @@ execute.sh
 *.log.*
 logs/
 *.out
-
 # Ignorar archivos relacionados con IDEs y editores
 # VS Code
 .vscode/

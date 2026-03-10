@@ -31,14 +31,14 @@ class User(AbstractUser):
     - Set a referral_code to handle
     """
 
-    dni = models.CharField(max_length=15, primary_key=True)
+    dni = models.CharField(max_length=30, primary_key=True)
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=50, blank=True)
     avatar = models.ImageField(
         default="users/avatar.jpg", upload_to="users/", blank=True, null=True
     )
-    phone = models.CharField(max_length=15, blank=True)
-    role = models.CharField(max_length=15)
+    phone = models.CharField(max_length=20, blank=True)
+    role = models.CharField(max_length=20)
     referral_code = models.CharField(max_length=25, unique=True, blank=True)
     referred_by = models.ForeignKey(
         "self", null=True, blank=True, on_delete=models.SET_NULL
