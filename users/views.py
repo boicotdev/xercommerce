@@ -62,7 +62,7 @@ class AdminDashboardAPIView(APIView):
         user_serializer = AdminDashboardSerializer(request.user)
         return Response(
             {
-                "user": user_serializer.data,
+                "data": user_serializer.data,
             }
         )
 

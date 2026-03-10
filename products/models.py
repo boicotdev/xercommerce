@@ -1,7 +1,6 @@
 from django.db import models
 
 options = (
-    # 25 kg  // 500 grs  // purchase_price  = suggested_pricee
     ("CANASTILLA", "CANASTILLA"),
     ("MANOJO", "MANOJO"),
     ("BULTO", "BULTO"),
@@ -13,6 +12,7 @@ options = (
     ("BANDEJA", "BANDEJA"),
     ("ESTUCHE", "ESTUCHE"),
     ("PONY", "PONY"),
+    ("TONELADA", "TONELADA"),
     ("KG", "KG"),
 )
 
@@ -35,7 +35,7 @@ class UnitOfMeasure(models.Model):
     weight = models.IntegerField()
 
     def __str__(self):
-        return f"Unit Of Measure {self.unity} | ID {self.id} | Weight {self.weight} Lbs"
+        return f"{self.unity} | ID {self.id} | Weight {self.weight} Lbs"
 
 
 class Product(models.Model):
@@ -51,7 +51,7 @@ class Product(models.Model):
     recommended = models.BooleanField(default=False)
     best_seller = models.BooleanField(default=False)
     tag = models.CharField(max_length=60, default="Cultivo tradicional")
-    quality = models.CharField(max_length=15, default="segunda")
+    quality = models.CharField(max_length=30, default="segunda")
     weight = models.FloatField(default=0)
     slug = models.SlugField(blank=True, null=True)
     last_updated = models.DateTimeField(auto_now=True, blank=True, null=True)
@@ -64,3 +64,31 @@ class Product(models.Model):
 
     def __str__(self):
         return f"Product: {self.name} (SKU: {self.sku}, Stock: {self.stock}, Price: ${self.price})"
+
+
+
+class ProductReference(models.Model):
+    options = (
+        ('STABLE', 'Estable'),
+        ('WENT_UP', 'Subío'),
+        ('WENT_DOWN', 'Bajó')
+    )
+
+    name = models.CharField(max_length=100)
+    measure = models.ForeignKey(UnitOfMeasure, on_delete=models.SET_NULL, blank=True, null=True)
+    quantity = models.IntegerField()
+    extra_price_quality = models.DecimalField(max_digits=12, decimal_places=2)
+    first_price_quality = models.DecimalField(max_digits=12, decimal_places=2)
+    price_per_unity = models.DecimalField(max_digits=12, decimal_places=2)
+    variation = models.CharField(max_length=30, choices=options, default='STABLE')
+    weight = models.IntegerField(default=1)
+    slug = models.SlugField(blank=True, null=True)
+    category = models.CharField(max_length=100, blank=True, null=True)
+    image = models.ImageField(
+        upload_to="products/",
+        null=True,
+        blank=True
+    )
+    
+    def __str__(self) -> str:
+        return str(self.name)

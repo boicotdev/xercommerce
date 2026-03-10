@@ -69,7 +69,7 @@ class Coupon(models.Model):
     created_by = models.ForeignKey(
         "users.User", null=True, blank=True, on_delete=models.CASCADE
     )
-    coupon_code = models.CharField(max_length=15)
+    coupon_code = models.CharField(max_length=30)
     discount = models.IntegerField()
     creation_date = models.DateTimeField(auto_now=True)
     expiration_date = models.DateField()

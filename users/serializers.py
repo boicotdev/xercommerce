@@ -313,12 +313,12 @@ class AdminDashboardSerializer(serializers.ModelSerializer):
         previous_start, previous_end = self._get_month_range(1)
 
         current = User.objects.filter(
-            role="client", date_joined__range=(current_start, current_end)
+            role="customer", date_joined__range=(current_start, current_end)
         ).count()
         previous = User.objects.filter(
-            role="client", date_joined__range=(previous_start, previous_end)
+            role="customer", date_joined__range=(previous_start, previous_end)
         ).count()
-        total = User.objects.filter(role="client").count()
+        total = User.objects.filter(role="customer").count()
 
         return self._calculate_change(current, previous, total)
 

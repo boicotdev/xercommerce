@@ -59,7 +59,7 @@ class DeliveryAddress(models.Model):
     zip_code = models.CharField(max_length=10)
     quarter = models.CharField(max_length=50)
     recipient = models.CharField(max_length=40)
-    phone = models.CharField(max_length=15, blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
     is_default = models.BooleanField(default=False)
 
     def __str__(self):

@@ -6,8 +6,10 @@ from .views import (
     ProductDetailsView,
     RetrieveLatestProducts,
     AdminProductAPIView,
+    AdminProductReferenceAPIView,
     SuggestedRetailPricesAPIView,
 )
+
 from products.categories.views import AdminCategoriesAPIView
 
 urlpatterns = [
@@ -19,8 +21,8 @@ urlpatterns = [
     path("products/list/", ProductListView.as_view()),  # retrieve all products
     path("products/latest/", RetrieveLatestProducts.as_view()),
     path("products/filter/", ProductFilterAPIView.as_view()),
-    # retrieve a single products
     path("products/product/details/", ProductDetailsView.as_view()),
     path("dashboard/products/", AdminProductAPIView.as_view()),
+    path("dashboard/products/update-prices/", AdminProductReferenceAPIView.as_view()),
     path("dashboard/products/<str:sku>/", AdminProductAPIView.as_view()),
 ]

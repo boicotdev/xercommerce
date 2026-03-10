@@ -6,7 +6,6 @@ from django.db import models
 
 from products.models import Product, UnitOfMeasure
 from orders.models import Order
-from users.models import User
 
 
 class Purchase(models.Model):

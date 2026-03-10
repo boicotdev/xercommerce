@@ -13,7 +13,7 @@ from rest_framework.views import APIView, Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from rest_framework.pagination import LimitOffsetPagination
-
+from products.models import ProductReference
 from orders.models import Order, OrderProduct
 from .serializers import SuggestedRetailPriceSerializer
 from users.models import User
@@ -128,6 +128,67 @@ class ProductImportView(APIView):
         )
 
 
+
+class AdminProductReferenceAPIView(APIView):
+    # permission_classes = [IsAdminUser]
+
+    def post(self, request):
+
+        data = request.data
+
+        if not isinstance(data, list):
+            return Response(
+                {"error": "Expected a list of products"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        created = 0
+        updated = 0
+
+        with transaction.atomic():
+
+            for item in data:
+                name = item.get("name")
+                category_name = item.get("category")
+                measure_name = item.get("unit")
+                quantity = item.get("quantity")
+                price_extra = item.get("price_extra")
+                price_primera = item.get("price_primera")
+                weight = item.get("weight", 0)
+                variation = item.get("variation")
+
+                if not name or not category_name:
+                    continue
+
+                
+                measure = UnitOfMeasure.objects.filter(unity=measure_name).first()
+
+                product, was_created = ProductReference.objects.update_or_create(
+                    name=name,
+                    measure=measure,
+                    quantity = quantity,
+                    extra_price_quality = price_extra,
+                    first_price_quality = price_primera,
+                    price_per_unity = 0,
+                    variation = variation,
+                    weight = weight,
+                    slug = None,
+                    category = category_name
+                )
+
+                if was_created:
+                    created += 1
+                else:
+                    updated += 1
+
+        return Response(
+            {
+                "created": created,
+                "updated": updated
+            },
+            status=status.HTTP_200_OK
+        )
+
 class AdminProductAPIView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
     parser_classes = [MultiPartParser, FormParser, JSONParser]
@@ -191,7 +252,6 @@ class AdminProductAPIView(APIView):
             )
 
     def put(self, request, sku):
-        print(request.data)
         try:
             product = get_object_or_404(Product, sku=sku)
             serializer = ProductSerializer(product, data=request.data, partial=True)
