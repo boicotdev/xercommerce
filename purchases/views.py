@@ -121,7 +121,6 @@ class PurchaseCreateUpdateView(APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request):
-        print(request.data)
         required_fields = {"purchase_date", "global_sell_percentage"}
         missing_fields = required_fields - request.data.keys()
         if missing_fields:
@@ -158,11 +157,7 @@ class PurchaseCreateUpdateView(APIView):
                         purchase_date=purchase_date,
                         additional_costs = additional_costs,
                     )
-                    print('printed before save purchase.')
                     purchase.save()
-
-                    print('printed after save purchase.')
-
                     purchase_items = []
                     for item in items_data:
                         product_sku = item.get("product")
@@ -181,7 +176,6 @@ class PurchaseCreateUpdateView(APIView):
                                 },
                                 status=status.HTTP_400_BAD_REQUEST,
                             )
-                        print('Print debug before get product line 181')
                         product = Product.objects.get(sku=product_sku)
                         unit_measure = UnitOfMeasure.objects.get(pk=unit_measure)
 
@@ -197,7 +191,6 @@ class PurchaseCreateUpdateView(APIView):
                                 )
 
                     PurchaseItem.objects.bulk_create(purchase_items)
-                    print('Print debug before get product line 197')
                     movements = StockMoventSignal()
                     service = RetailSuggestedPriceService()
                     movements.bulk_create(purchase_items)
@@ -212,13 +205,11 @@ class PurchaseCreateUpdateView(APIView):
                     )
 
             except Exception as e:
-                print('Error printed at line 211', e)
                 return Response(
                     {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
 
             except UnitOfMeasure.DoesNotExist:
-                print('Unit of measurements not exist')
                 return Response(
                     {"error": "One or more unit measures do not exist."},
                     status=status.HTTP_400_BAD_REQUEST,
