@@ -207,9 +207,6 @@ class AnalyticsSalesReportsAPIView(APIView):
                 }
             )
 
-        # ===============================
-        # 📦 RESPONSE
-        # ===============================
         return Response(
             {
                 "sales_data": SalesDataReportSerializer(sales_data, many=True).data,

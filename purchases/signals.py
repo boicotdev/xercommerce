@@ -34,7 +34,7 @@ def create_stock_movement_record(sender, instance, created, **kwargs):
             )
             stock_movement.save()
     except Exception as e:
-        print(e)
+        pass
 
 
 @receiver(post_save, sender=Purchase)

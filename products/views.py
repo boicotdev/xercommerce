@@ -108,7 +108,7 @@ class UnitOfMeasureView(APIView):
 
 
 class ProductImportView(APIView):
-    #permission_classes = [IsAdminUser]
+    permission_classes = [IsAdminUser]
 
     def post(self, request):
         serializer = ProductImportSerializer(data=request.data)
@@ -130,7 +130,11 @@ class ProductImportView(APIView):
 
 
 class AdminProductReferenceAPIView(APIView):
-    # permission_classes = [IsAdminUser]
+    """
+    Update prices of the reference products, used when a admin user is making a purchase of items
+    """
+
+    permission_classes = [IsAdminUser]
 
     def post(self, request):
 
@@ -188,6 +192,34 @@ class AdminProductReferenceAPIView(APIView):
             },
             status=status.HTTP_200_OK
         )
+
+class AdminProductsPricesBulkUpdate(APIView):
+    """
+    Update the sell price of all the given products
+    this new prices are showed to the end customer
+    """
+    
+    permission_classes = [IsAdminUser]
+
+    def put(self, request):
+        data = request.data.get('items')
+
+        if not isinstance(data, list):
+            return Response({'message': 'Data must be a list of products id\'s'}, status= status.HTTP_400_BAD_REQUEST)
+
+        products_sku = [item['product_sku'] for item in data]
+        products = Product.objects.filter(sku__in=products_sku)
+        price_map = {item['product_sku']: item['new_price'] for item in data}
+        purchase_price_map = {item['product_sku']: item['purchase_price'] for item in data}
+
+        for product in products:
+            product.price = price_map[product.sku]
+            product.purchase_price = purchase_price_map[product.sku]
+
+        Product.objects.bulk_update(products, ['price', 'purchase_price'])
+
+        #TODO: Send a email notification to all admin users
+        return Response({'message':f'{len(products)} product prices has been updated successfully'})
 
 class AdminProductAPIView(APIView):
     permission_classes = [IsAuthenticated, IsAdminUser]
@@ -549,3 +581,4 @@ class ProductCartUserRemove(APIView):
             return Response(
                 {"message": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+

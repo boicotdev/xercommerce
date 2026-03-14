@@ -7,6 +7,7 @@ from .views import (
     RetrieveLatestProducts,
     AdminProductAPIView,
     AdminProductReferenceAPIView,
+    AdminProductsPricesBulkUpdate,
     SuggestedRetailPricesAPIView,
 )
 
@@ -24,5 +25,6 @@ urlpatterns = [
     path("products/product/details/", ProductDetailsView.as_view()),
     path("dashboard/products/", AdminProductAPIView.as_view()),
     path("dashboard/products/update-prices/", AdminProductReferenceAPIView.as_view()),
+    path("dashboard/products/bulk-update-prices/", AdminProductsPricesBulkUpdate.as_view()),
     path("dashboard/products/<str:sku>/", AdminProductAPIView.as_view()),
 ]
