@@ -4,11 +4,11 @@ from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from rest_framework import status
 from rest_framework.response import Response
-
 from orders.models import OrderProduct, Order
-from users.models import UserProfileSettings, User
+from users.utils.email_async import run_async
 
 
+@run_async
 def send_email(
     subject,
     email,
@@ -80,6 +80,7 @@ def update_product_score(product, rating):
     product.save()
 
 
+
 def update_bestseller_status(product, threshold=20):
     """
     Calculates the total quantity sold of a given product (excluding 'PENDING' orders),
@@ -115,26 +116,6 @@ def update_bestseller_status(product, threshold=20):
         product.save()
 
 
-def create_user_profile_settings(dni: str) -> bool:
-    """
-    Creates or retrieves a user profile settings instance based on the user's DNI.
-
-    Args:
-        dni (str): The user's national identification number.
-
-    Returns:
-        bool: True if a new UserProfileSettings was created, False if it already existed or an error occurred.
-    """
-    try:
-        user = User.objects.filter(dni=dni).first()
-        if not user:
-            return False  # User not found
-
-        _, created = UserProfileSettings.objects.get_or_create(user=user)
-        return created  # True if created, False if it already existed
-    except Exception:
-        # Optionally log the error here
-        return False
 
 
 def is_first_purchase(user) -> bool:

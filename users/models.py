@@ -68,8 +68,6 @@ class User(AbstractUser):
 
 
 # User profile settingss
-
-
 class UserProfileSettings(models.Model):
     user = models.OneToOneField(
         "users.User", on_delete=models.CASCADE, related_name="profile_settings"

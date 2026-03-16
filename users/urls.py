@@ -1,7 +1,6 @@
 from django.urls import path
 
 from .views import (
-    UserCreateView,
     UserUpdateView,
     UserDeleteView,
     UserDetailsView,
@@ -16,6 +15,8 @@ from .views import (
     UserDashboardAPIView,
     UserUploadFileAPIView,
 )
+
+from users.user_views.user_create_view import UserCreateView
 
 urlpatterns = [
     path("users/token/obtain/", CustomTokenObtainPairView.as_view()),  # token obtain
