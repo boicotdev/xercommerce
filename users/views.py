@@ -120,7 +120,7 @@ class UserDashboardAPIView(APIView):
             # handle user profile settings
             create_user_profile_settings(request.data.get("dni"))
             send_email(
-                "Bienvenido a Fruta Andina",
+                "Bienvenido a Avoberry",
                 request.data.get("email"),
                 [],
                 context,
@@ -193,13 +193,13 @@ class UserCreateView(APIView):
             }
             # handle user profile settings
             create_user_profile_settings(request.data.get("dni"))
-            send_email(
-                "Bienvenido a Fruta Andina",
-                request.data.get("email"),
-                [],
-                context,
-                "email/welcome-email.html",
-            )
+            # send_email(
+            #     "Bienvenido a Avoberry",
+            #     request.data.get("email"),
+            #     [],
+            #     context,
+            #     "email/welcome-email.html",
+            # )
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
