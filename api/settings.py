@@ -18,7 +18,9 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool)
 
 ALLOWED_HOSTS = str(config("ALLOWED_HOSTS")).split(",")
-
+MAILGUN_API_KEY = config('API_KEY')
+MAILGUN_DOMAIN = str(config('MAILGUN_DOMAIN'))
+SITE_NAME = config('SITE_NAME')
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -113,6 +115,8 @@ AUTH_PASSWORD_VALIDATORS = [
 CORS_ALLOWED_ORIGINS = str(config("CORS_ALLOWED_ORIGINS")).split(",")
 CSRF_TRUSTED_ORIGINS = str(config("CSRF_TRUSTED_ORIGINS")).split(",")
 CORS_ALLOW_CREDENTIALS = True
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
 # Internationalization
@@ -151,6 +155,14 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 10,
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    }
 }
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10485760  # 10MB
@@ -192,11 +204,11 @@ SIMPLE_JWT = {
 }
 
 # Send email settings
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = config("EMAIL_HOST")
-EMAIL_PORT = int(config("EMAIL_PORT", cast=int))
-EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
-EMAIL_HOST_USER = config("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
-DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
+# EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+# EMAIL_HOST = config("EMAIL_HOST")
+# EMAIL_PORT = int(config("EMAIL_PORT", cast=int))
+# EMAIL_USE_TLS = config("EMAIL_USE_TLS", cast=bool)
+# EMAIL_HOST_USER = config("EMAIL_HOST_USER")
+# EMAIL_HOST_PASSWORD = config("EMAIL_HOST_PASSWORD")
+# DEFAULT_FROM_EMAIL = config("DEFAULT_FROM_EMAIL")
 RECIPIENT_LIST = str(config("RECIPIENT_LIST")).split(",")
