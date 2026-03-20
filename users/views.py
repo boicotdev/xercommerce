@@ -11,9 +11,10 @@ from rest_framework.views import APIView, Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from users.utils.profile import create_user_profile_settings
-from utils.utils import send_email
 from .models import User, UserProfileSettings
 from .permissions import IsOwnerOrSuperUserPermission, IsOwnerOfProfileSettings
+from utils.email_async import send_email_async
+from users.services.handle_excel_file import ExcelUserParser, UsersBulkCreate
 from .serializers import (
     AdminDashboardSerializer,
     UserSerializer,
@@ -25,15 +26,75 @@ from .serializers import (
 )
 
 
-from users.services.handle_excel_file import ExcelUserParser, UsersBulkCreate
-
-
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
 class CustomTokenRefreshPairView(TokenRefreshView):
     pass
+
+
+class UserCreateAPIView(APIView):
+    """
+    Create a new `User` instance without any special permissions
+    Any user can use this view to create an account
+    """
+
+    parser_classes = [MultiPartParser, JSONParser, FormParser]
+
+    def post(self, request):
+        required_fields = {"dni", "username", "email"}
+
+        data = request.data
+        missing_fields = required_fields - data.keys()
+
+        if missing_fields:
+            return Response(
+                {"error": f"Missing required fields: {', '.join(missing_fields)}"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        # check if a User with the referral_code exists
+        if request.data.get("referral_code"):
+            try:
+                User.objects.get(referral_code=request.data.get("referral_code"))
+            except User.DoesNotExist:
+                return Response(
+                    {"error": "User with referral_code not found!"},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+
+        # check if user with some required fields already exists.
+        for field in required_fields:
+            value = data.get(field)
+            if value and User.objects.filter(**{field: value}).exists():
+                return Response(
+                    {"error": f'A user with {field} "{value}" already exists.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+
+        serializer = UserSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            context = {
+                "user": request.data.get("first_name"),
+                "subscriber_name": request.data.get("email"),
+                "site_url": "https://avoberry.vercel.app/",
+                "year": datetime.datetime.now().year,
+            }
+
+            # handle user profile settings
+            create_user_profile_settings(request.data.get("dni"))
+            client_html = render_to_string("email/welcome-email.html", context)
+            client_text = strip_tags(client_html)
+            send_email_async(
+                'Bienvenido a Avoberry',
+                client_text,
+                client_html,
+                request.data.get('email')
+            )
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LogoutUserView(APIView):
@@ -47,7 +108,7 @@ class LogoutUserView(APIView):
             return Response(
                 {"message": "Sesión cerrada exitosamente."}, status=status.HTTP_200_OK
             )
-        except Exception as e:
+        except Exception:
             return Response(
                 {"message": "Token no válido."}, status=status.HTTP_400_BAD_REQUEST
             )
@@ -116,15 +177,18 @@ class UserDashboardAPIView(APIView):
                 "site_url": "https://avoberry.vercel.app/",
                 "year": datetime.datetime.now().year,
             }
+
             # handle user profile settings
             create_user_profile_settings(request.data.get("dni"))
-            send_email(
-                "Bienvenido a Avoberry",
-                request.data.get("email"),
-                [],
-                context,
-                "email/welcome-email.html",
+            client_html = render_to_string("email/welcome-email.html", context)
+            client_text = strip_tags(client_html)
+            send_email_async(
+                'Bienvenido a Avoberry',
+                client_text,
+                client_html,
+                request.data.get('email')
             )
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -230,7 +294,7 @@ class UserUpdateView(APIView):
                 {"message": "Usuario no encontrado"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        except Exception as e:
+        except Exception:
             return Response(
                 {"message": "Error interno del servidor"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
@@ -285,21 +349,20 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 class NewsletterSubscriptionView(APIView):
     """
-    API para manejar la suscripción al boletín de Avoberry.
+    Endpoint para manejar la suscripción al boletín de Avoberry.
     Envía un correo de bienvenida al nuevo suscriptor.
     """
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         email = request.data.get("email")
 
-        if not email:
-            return Response(
-                {"error": "The email address is required to subscribe."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
+        serializer = NewsletterSubscriptionSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
 
         # Preparar y enviar el correo
         subject = "¡Gracias por suscribirte a nuestro boletín!"
+        email = serializer.validated_data.pop('email')
         context = {
             "subscriber_name": email,
             "site_url": "https://avoberry.vercel.app/",
@@ -308,33 +371,15 @@ class NewsletterSubscriptionView(APIView):
 
         html_content = render_to_string("email/newsletter-subscription.html", context)
         text_content = strip_tags(html_content)
+        send_email_async(
+            subject,
+            text_content,
+            html_content,
+            email
+        )
 
-        try:
-            email_msg = EmailMultiAlternatives(
-                subject,
-                text_content,
-                "no-reply@avoberry.com",
-                [email],
-            )
-            email_msg.attach_alternative(html_content, "text/html")
-            email_msg.send()
+        return Response({'message': 'Thanks for subscribing into our newsletter!'}, status=status.HTTP_201_CREATED)
 
-            serializer = NewsletterSubscriptionSerializer(data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(
-                    {
-                        "message": "Subscription successful. Check your email for more details.."
-                    },
-                    status=status.HTTP_201_CREATED,
-                )
-            return Response(serializer.errors, status=status.HTTP_201_CREATED)
-
-        except Exception as e:
-            return Response(
-                {"error": f"No se pudo enviar el correo: {str(e)}"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            )
 
 
 class UserProfileSettingsAPIView(APIView):

@@ -45,8 +45,8 @@ class CreatePaymentPreference(APIView):
         for item in items:
             product = Product.objects.get(sku=item["id"])
 
-            unit_price = item["unit_price"]
-            quantity = item["quantity"]
+            unit_price = float(item["unit_price"])
+            quantity = int(item["quantity"])
             item_total = unit_price * quantity
             subtotal += item_total
 

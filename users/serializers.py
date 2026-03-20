@@ -1,7 +1,7 @@
 from calendar import monthrange
 from datetime import timedelta
 from decimal import Decimal, ROUND_HALF_UP
-
+from django.db import IntegrityError
 from django.contrib.auth.hashers import check_password
 from django.db.models import Sum
 from django.utils import timezone
@@ -358,8 +358,25 @@ class UserProfileSettingsSerializer(serializers.ModelSerializer):
         model = UserProfileSettings
         fields = "__all__"
 
-
 class NewsletterSubscriptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = NewsletterSubscription
         fields = "__all__"
+
+    def validate(self, data):
+        email = data.get('email')
+
+        if NewsletterSubscription.objects.filter(email=email).exists():
+            raise serializers.ValidationError({
+                'email': f'{email} already exists!'
+            })
+
+        return data
+
+    def create(self, validated_data):
+        try:
+            return super().create(validated_data)
+        except IntegrityError:
+            raise serializers.ValidationError({
+                'email': 'This email is already registered.'
+            })
