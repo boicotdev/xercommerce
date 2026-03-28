@@ -1,450 +1,560 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Confirmación de Pedido - Avoberry</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-
-        * {
-          margin: 0;
-          padding: 0;
-          box-sizing: border-box;
-        }
-
-        body {
-          margin: 0;
-          padding: 0;
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-          background-color: #f8fafc;
-          color: #334155;
-          line-height: 1.6;
-        }
-
-        .wrapper {
-          width: 100%;
-          max-width: 640px;
-          margin: 0 auto;
-          padding: 20px;
-        }
-
-        .container {
-          background-color: #ffffff;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-        }
-
-        .header {
-          padding: 40px 0;
-          text-align: center;
-          background-color: #10b981;
-          background-image: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          position: relative;
-        }
-
-        .header-pattern {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background-image: url('https://i.imgur.com/8JIrXvx.png');
-          background-size: cover;
-          opacity: 0.1;
-        }
-
-        .logo {
-          position: relative;
-          z-index: 1;
-          margin-bottom: 16px;
-        }
-
-        .logo img {
-          width: 140px;
-          height: auto;
-        }
-
-        .header h1 {
-          position: relative;
-          z-index: 1;
-          margin: 0;
-          font-size: 28px;
-          font-weight: 700;
-          color: white;
-          letter-spacing: -0.02em;
-        }
-
-        .content {
-          padding: 40px 32px;
-          text-align: left;
-        }
-
-        .content h2 {
-          color: #0f172a;
-          font-size: 20px;
-          font-weight: 600;
-          margin-bottom: 16px;
-        }
-
-        .content p {
-          margin-bottom: 24px;
-          color: #475569;
-          font-size: 16px;
-        }
-
-        .content strong {
-          color: #0f172a;
-          font-weight: 600;
-        }
-
-        .order-info {
-          margin: 32px 0;
-          padding: 24px;
-          background-color: #f1f5f9;
-          border-radius: 12px;
-        }
-
-        .order-number {
-          font-size: 18px;
-          font-weight: 600;
-          color: #0f172a;
-          margin-bottom: 16px;
-          padding-bottom: 16px;
-          border-bottom: 1px dashed #e2e8f0;
-        }
-
-        .order-details {
-          margin-bottom: 24px;
-        }
-
-        .detail-row {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 8px;
-        }
-
-        .detail-label {
-          color: #64748b;
-          font-size: 14px;
-        }
-
-        .detail-value {
-          color: #0f172a;
-          font-weight: 500;
-          font-size: 14px;
-        }
-
-        .order-items {
-          margin-top: 24px;
-          border-top: 1px dashed #e2e8f0;
-          padding-top: 24px;
-        }
-
-        .order-items h3 {
-          font-size: 16px;
-          font-weight: 600;
-          color: #0f172a;
-          margin-bottom: 16px;
-        }
-
-        .item {
-          display: flex;
-          margin-bottom: 16px;
-          padding-bottom: 16px;
-          border-bottom: 1px solid #e2e8f0;
-        }
-
-        .item:last-child {
-          margin-bottom: 0;
-          padding-bottom: 0;
-          border-bottom: none;
-        }
-
-        .item-image {
-          width: 60px;
-          height: 60px;
-          border-radius: 8px;
-          overflow: hidden;
-          margin-right: 16px;
-          background-color: #f1f5f9;
-        }
-
-        .item-image img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .item-details {
-          flex: 1;
-        }
-
-        .item-name {
-          font-weight: 600;
-          color: #0f172a;
-          font-size: 15px;
-          margin-bottom: 4px;
-        }
-
-        .item-meta {
-          font-size: 13px;
-          color: #64748b;
-          display: flex;
-          flex-wrap: wrap;
-        }
-
-        .item-meta span {
-          margin-right: 12px;
-        }
-
-        .item-price {
-          font-weight: 600;
-          color: #0f172a;
-          font-size: 15px;
-          text-align: right;
-          white-space: nowrap;
-          margin-left: 16px;
-        }
-
-        .order-summary {
-          margin-top: 24px;
-          padding-top: 24px;
-          border-top: 1px dashed #e2e8f0;
-        }
-
-        .summary-row {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 8px;
-        }
-
-        .summary-row.total {
-          font-weight: 600;
-          color: #0f172a;
-          font-size: 16px;
-          margin-top: 12px;
-          padding-top: 12px;
-          border-top: 1px solid #e2e8f0;
-        }
-
-        .shipping-info {
-          margin: 32px 0;
-          padding: 24px;
-          background-color: #f1f5f9;
-          border-radius: 12px;
-        }
-
-        .shipping-info h3 {
-          font-size: 16px;
-          font-weight: 600;
-          color: #0f172a;
-          margin-bottom: 16px;
-        }
-
-        .shipping-address {
-          margin-bottom: 24px;
-        }
-
-        .shipping-address p {
-          margin-bottom: 4px;
-          font-size: 14px;
-        }
-
-        .tracking-info {
-          padding-top: 16px;
-          border-top: 1px dashed #e2e8f0;
-        }
-
-        .tracking-info p {
-          margin-bottom: 8px;
-          font-size: 14px;
-        }
-
-        .tracking-number {
-          font-weight: 600;
-          color: #0f172a;
-        }
-
-        .cta-button {
-          display: block;
-          width: 100%;
-          max-width: 300px;
-          margin: 32px auto;
-          padding: 16px 24px;
-          background-color: #10b981;
-          color: white;
-          text-decoration: none;
-          border-radius: 8px;
-          font-weight: 600;
-          font-size: 16px;
-          text-align: center;
-          transition: background-color 0.2s;
-        }
-
-        .cta-button:hover {
-          background-color: #059669;
-        }
-
-        .help-section {
-          margin: 32px 0;
-          text-align: center;
-        }
-
-        .help-section h3 {
-          font-size: 16px;
-          font-weight: 600;
-          color: #0f172a;
-          margin-bottom: 12px;
-        }
-
-        .help-section p {
-          font-size: 14px;
-          color: #64748b;
-          margin-bottom: 16px;
-        }
-
-        .help-buttons {
-          display: flex;
-          justify-content: center;
-          gap: 12px;
-        }
-
-        .help-button {
-          padding: 8px 16px;
-          background-color: #f1f5f9;
-          color: #0f172a;
-          text-decoration: none;
-          border-radius: 6px;
-          font-size: 14px;
-          font-weight: 500;
-          transition: background-color 0.2s;
-        }
-
-        .help-button:hover {
-          background-color: #e2e8f0;
-        }
-
-        .divider {
-          height: 1px;
-          background-color: #e2e8f0;
-          margin: 32px 0;
-        }
-
-        .social-links {
-          text-align: center;
-          margin: 32px 0;
-        }
-
-        .social-links p {
-          margin-bottom: 16px;
-          font-size: 15px;
-          color: #64748b;
-        }
-
-        .social-icons {
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-        }
-
-        .social-icon {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 40px;
-          height: 40px;
-          background-color: #f1f5f9;
-          border-radius: 50%;
-          color: #10b981;
-          text-decoration: none;
-          font-size: 18px;
-          transition: background-color 0.2s;
-        }
-
-        .social-icon:hover {
-          background-color: #e2e8f0;
-        }
-
-        .footer {
-          font-size: 13px;
-          text-align: center;
-          color: #94a3b8;
-          padding: 24px 32px;
-          border-top: 1px solid #f1f5f9;
-          background-color: #f8fafc;
-        }
-
-        .footer p {
-          margin-bottom: 8px;
-        }
-
-        .footer p:last-child {
-          margin-bottom: 0;
-        }
-
-        .footer a {
-          color: #64748b;
-          text-decoration: underline;
-        }
-
-        @media (max-width: 600px) {
-          .wrapper {
-            padding: 12px;
-          }
-
-          .content {
-            padding: 32px 24px;
-          }
-
-          .header {
-            padding: 32px 0;
-          }
-
-          .header h1 {
-            font-size: 24px;
-          }
-
-          .order-info,
-          .shipping-info {
-            padding: 20px;
-          }
-
-          .item {
-            flex-direction: column;
-          }
-
-          .item-image {
-            margin-bottom: 12px;
-          }
-
-          .item-price {
-            margin-left: 0;
-            margin-top: 8px;
-            text-align: left;
-          }
-
-          .help-buttons {
-            flex-direction: column;
-            gap: 8px;
-          }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  
+  <!-- Meta tags anti-spam y reputación -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <meta name="description" content="Avoberry - Confirmación de pedido. Tu compra ha sido confirmada y está siendo preparada con productos frescos y orgánicos." />
+  <meta name="keywords" content="confirmación de pedido, Avoberry, productos frescos, frutas, verduras, entrega a domicilio" />
+  
+  <title>Confirmación de Pedido - Avoberry</title>
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background-color: #eef3ea;
+      color: #1f3e36;
+      line-height: 1.5;
+    }
+
+    .wrapper {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
+      background-color: #eef3ea;
+    }
+
+    .container {
+      background-color: #ffffff;
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0, 32, 24, 0.1);
+    }
+
+    .header {
+      padding: 40px 24px 44px;
+      text-align: center;
+      background: linear-gradient(135deg, #0d6b48 0%, #10b981 100%);
+      position: relative;
+    }
+
+    .header-pattern {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIzIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDYiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzIiIHI9IjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==');
+      background-repeat: repeat;
+      background-size: 30px;
+      opacity: 0.12;
+      pointer-events: none;
+    }
+
+    .logo {
+      position: relative;
+      z-index: 1;
+      margin-bottom: 20px;
+    }
+
+    .logo img {
+      width: 140px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .header h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 30px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .content {
+      padding: 40px 32px 32px;
+      text-align: left;
+    }
+
+    .content h2 {
+      color: #0b3b2f;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .content p {
+      margin-bottom: 20px;
+      color: #2d5a4c;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .content strong {
+      color: #0d6b48;
+      font-weight: 700;
+    }
+
+    .order-info {
+      margin: 32px 0;
+      padding: 28px 24px;
+      background: #fafef7;
+      border-radius: 24px;
+      border: 1px solid #d9ebd2;
+    }
+
+    .order-number {
+      font-size: 20px;
+      font-weight: 700;
+      color: #0b3b2f;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px dashed #cde2c4;
+    }
+
+    .order-details {
+      margin-bottom: 24px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      padding: 4px 0;
+    }
+
+    .detail-label {
+      color: #547c6a;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .detail-value {
+      color: #1f3e36;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .order-items {
+      margin-top: 24px;
+      border-top: 1px solid #e5f0df;
+      padding-top: 24px;
+    }
+
+    .order-items h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0b3b2f;
+      margin-bottom: 20px;
+    }
+
+    .item {
+      display: flex;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid #e5f0df;
+      align-items: center;
+    }
+
+    .item:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-right: 16px;
+      background: #f0f7ec;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .item-details {
+      flex: 1;
+    }
+
+    .item-name {
+      font-weight: 700;
+      color: #1f3e36;
+      font-size: 15px;
+      margin-bottom: 6px;
+    }
+
+    .item-meta {
+      font-size: 13px;
+      color: #6f9786;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .item-price {
+      font-weight: 700;
+      color: #0d6b48;
+      font-size: 15px;
+      text-align: right;
+      white-space: nowrap;
+      margin-left: 16px;
+      flex-shrink: 0;
+    }
+
+    .order-summary {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid #e5f0df;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .summary-row.total {
+      font-weight: 800;
+      color: #0b3b2f;
+      font-size: 16px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #d4e8cb;
+    }
+
+    .shipping-info {
+      margin: 32px 0;
+      padding: 28px 24px;
+      background: #fafef7;
+      border-radius: 24px;
+      border: 1px solid #d9ebd2;
+    }
+
+    .shipping-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0b3b2f;
+      margin-bottom: 20px;
+    }
+
+    .shipping-address {
+      margin-bottom: 24px;
+    }
+
+    .shipping-address p {
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #2d5a4c;
+    }
+
+    .shipping-address p strong {
+      color: #0d6b48;
+    }
+
+    .tracking-info {
+      padding-top: 20px;
+      border-top: 1px solid #e5f0df;
+    }
+
+    .tracking-info p {
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    .tracking-number {
+      font-weight: 700;
+      color: #0d6b48;
+      font-size: 15px;
+      background: #eef9f0;
+      display: inline-block;
+      padding: 8px 16px;
+      border-radius: 40px;
+      margin-top: 8px;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      max-width: 280px;
+      margin: 28px auto 20px;
+      padding: 16px 28px;
+      background: linear-gradient(95deg, #0d6b48, #10b981);
+      color: white;
+      text-decoration: none;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 16px;
+      text-align: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 14px rgba(16, 185, 129, 0.25);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      background: linear-gradient(95deg, #0a5a3c, #0d9f6e);
+    }
+
+    .help-section {
+      margin: 32px 0 20px;
+      text-align: center;
+      padding: 24px;
+      background: #f8fdf4;
+      border-radius: 20px;
+    }
+
+    .help-section h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0b3b2f;
+      margin-bottom: 12px;
+    }
+
+    .help-section p {
+      font-size: 14px;
+      color: #547c6a;
+      margin-bottom: 20px;
+    }
+
+    .help-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .help-button {
+      padding: 10px 24px;
+      background-color: #eef3ea;
+      color: #0d6b48;
+      text-decoration: none;
+      border-radius: 40px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+      border: 1px solid #d4e8cb;
+    }
+
+    .help-button:hover {
+      background-color: #e2f0dc;
+      transform: translateY(-1px);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #cde2c4, transparent);
+      margin: 20px 32px;
+    }
+
+    .social-links {
+      text-align: center;
+      margin: 24px 32px 32px;
+    }
+
+    .social-links p {
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #547c6a;
+      font-weight: 500;
+    }
+
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .social-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background-color: #f0f7ec;
+      border-radius: 50%;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      border: 1px solid #d4e8cb;
+    }
+
+    .social-icon:hover {
+      background-color: #e2f0dc;
+      transform: scale(1.02);
+    }
+
+    .footer {
+      font-size: 12px;
+      text-align: center;
+      color: #6f9786;
+      padding: 28px 32px 32px;
+      border-top: 1px solid #e5f0df;
+      background-color: #fafdf8;
+    }
+
+    .footer p {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+
+    .footer p:last-child {
+      margin-bottom: 0;
+    }
+
+    .footer a {
+      color: #0d6b48;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #b9d8ae;
+    }
+
+    .footer a:hover {
+      color: #084f36;
+    }
+
+    @media (max-width: 560px) {
+      .wrapper {
+        padding: 12px 12px 32px;
+      }
+
+      .content {
+        padding: 32px 24px 28px;
+      }
+
+      .header {
+        padding: 32px 20px 36px;
+      }
+
+      .header h1 {
+        font-size: 26px;
+      }
+
+      .content h2 {
+        font-size: 22px;
+      }
+
+      .order-info,
+      .shipping-info {
+        padding: 20px;
+      }
+
+      .order-number {
+        font-size: 18px;
+      }
+
+      .item {
+        flex-wrap: wrap;
+      }
+
+      .item-image {
+        width: 52px;
+        height: 52px;
+      }
+
+      .item-price {
+        margin-left: 0;
+        margin-top: 8px;
+        text-align: left;
+        width: 100%;
+      }
+
+      .help-buttons {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+      }
+
+      .help-button {
+        width: 80%;
+      }
+
+      .social-icon {
+        width: 44px;
+        height: 44px;
+      }
+
+      .divider {
+        margin: 20px 24px;
+      }
+
+      .social-links {
+        margin: 20px 24px 28px;
+      }
+
+      .footer {
+        padding: 24px 24px 28px;
+      }
+    }
+
+    /* Outlook compatibility */
+    .ExternalClass, .ReadMsgBody {
+      width: 100%;
+      background-color: #eef3ea;
+    }
+    
+    table, td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
+    }
+  </style>
 </head>
-<body>
+<body style="margin:0; padding:0; background-color:#eef3ea;">
 <div class="wrapper">
     <div class="container">
         <div class="header">
             <div class="header-pattern"></div>
             <div class="logo">
-                <img src="https://avoberry.vercel.app/images/logo-without-bg.png" alt="Avoberry Logo"/>
+                <img src="https://avoberry.vercel.app/images/logo.png" alt="Avoberry Logo" width="140" height="auto" style="display:block; margin:0 auto;" />
             </div>
             <h1>¡Pedido Confirmado!</h1>
         </div>
 
         <div class="content">
-            <h2>Hola {{ customer_name }},</h2>
+            <h2>Hola {{ customer_name|default:"cliente" }},</h2>
             <p>
                 ¡Gracias por tu compra en <strong>Avoberry</strong>! Hemos recibido tu pedido y lo estamos preparando
                 con mucho cuidado para que recibas los productos más frescos directamente en tu hogar.
@@ -452,57 +562,80 @@
 
             <div class="order-info">
                 <div class="order-number">
-                    Pedido #{{ order_number }}
+                    📦 Pedido #{{ order_number|default:"AVB-1001" }}
                 </div>
 
                 <div class="order-details">
                     <div class="detail-row">
-                        <span class="detail-label">Fecha del pedido:</span>
-                        <span class="detail-value">{{ order_date }}</span>
+                        <span class="detail-label">📅 Fecha del pedido:</span>
+                        <span class="detail-value">{{ order_date|default:"15 marzo, 2025" }}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Método de pago:</span>
-                        <span class="detail-value">{{ payment_method }}</span>
+                        <span class="detail-label">💳 Método de pago:</span>
+                        <span class="detail-value">{{ payment_method|default:"Tarjeta de crédito" }}</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Estado del pedido:</span>
+                        <span class="detail-label">✅ Estado del pedido:</span>
                         <span class="detail-value">Confirmado</span>
                     </div>
                     <div class="detail-row">
-                        <span class="detail-label">Fecha estimada de entrega:</span>
-                        <span class="detail-value">{{ delivery_date }}</span>
+                        <span class="detail-label">🚚 Fecha estimada de entrega:</span>
+                        <span class="detail-value">{{ delivery_date|default:"18 - 20 marzo, 2025" }}</span>
                     </div>
                 </div>
 
                 <div class="order-items">
-                    <h3>Productos:</h3>
+                    <h3>🛒 Productos:</h3>
 
                     {% for item in order_items %}
                     <div class="item">
-                        {% if item.product.main_image %}
-                        <img src="{{ image_url }}/{{ item.product.main_image }}" alt="{{ item.product.name }}"/>
-                        {% else %}
-                        <img src="/static/images/placeholder.png" alt="No image"/>
-                        {% endif %}
+                        <div class="item-image">
+                            {% if item.product.main_image %}
+                            <img src="{{ image_url }}/{{ item.product.main_image }}" alt="{{ item.product.name }}" style="width:100%; height:100%; object-fit:cover;" />
+                            {% else %}
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <rect x="2" y="4" width="20" height="16" rx="2" stroke="#10b981" stroke-width="1.2"/>
+                                <path d="M8 8L16 8" stroke="#10b981" stroke-width="1.2" stroke-linecap="round"/>
+                                <path d="M8 12L12 12" stroke="#10b981" stroke-width="1.2" stroke-linecap="round"/>
+                            </svg>
+                            {% endif %}
+                        </div>
                         <div class="item-details">
-                            <div class="item-name">{{ item.product.name }}</div>
+                            <div class="item-name">{{ item.product.name|default:"Producto fresco" }}</div>
                             <div class="item-meta">
-                                <span>Cantidad: {{ item.quantity }}</span>
-                                <span>{{ item.product.unit.weight }} Lbs</span>
+                                <span>Cantidad: {{ item.quantity|default:"1" }}</span>
+                                <span>{{ item.product.unit.weight|default:"500" }} g</span>
                             </div>
                         </div>
-                        <div class="item-price">COP ${{ item.price }}</div>
+                        <div class="item-price">COP ${{ item.price|default:"0" }}</div>
+                    </div>
+                    {% empty %}
+                    <div class="item">
+                        <div class="item-image">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="12" cy="12" r="10" stroke="#10b981" stroke-width="1.2"/>
+                                <path d="M8 12L11 15L16 9" stroke="#10b981" stroke-width="1.2" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="item-details">
+                            <div class="item-name">Aguacate Hass</div>
+                            <div class="item-meta">
+                                <span>Cantidad: 2</span>
+                                <span>1 kg</span>
+                            </div>
+                        </div>
+                        <div class="item-price">COP $12,000</div>
                     </div>
                     {% endfor %}
 
                     <div class="order-summary">
                         <div class="summary-row">
                             <span>Subtotal:</span>
-                            <span>COP ${{ subtotal }}</span>
+                            <span>COP ${{ subtotal|default:"45,000" }}</span>
                         </div>
                         <div class="summary-row">
                             <span>Envío:</span>
-                            <span>COP ${{ shipping_cost }}</span>
+                            <span>COP ${{ shipping_cost|default:"8,000" }}</span>
                         </div>
                         {% if discount %}
                         <div class="summary-row">
@@ -512,26 +645,26 @@
                         {% endif %}
                         <div class="summary-row total">
                             <span>Total:</span>
-                            <span>COP ${{ total }}</span>
+                            <span>COP ${{ total|default:"53,000" }}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <div class="shipping-info">
-                <h3>Información de envío:</h3>
+                <h3>📍 Información de envío</h3>
 
                 <div class="shipping-address">
                     <p><strong>Dirección de entrega:</strong></p>
-                    <p>{{ shipping_address.shipment_address }}</p>
-                    <p>Bogotá, Cundinamarca {{ shipping_address.shipment_date_post_code }}</p>
+                    <p>{{ shipping_address.shipment_address|default:"Calle 123 #45-67, Chapinero" }}</p>
+                    <p>Bogotá, Cundinamarca {{ shipping_address.shipment_date_post_code|default:"110111" }}</p>
                     <p>Colombia</p>
-                    <p><strong>Teléfono:</strong> {{ phone }}</p>
+                    <p><strong>Teléfono:</strong> {{ phone|default:"310 555 1234" }}</p>
                 </div>
 
                 {% if tracking_number %}
                 <div class="tracking-info">
-                    <p>Puedes seguir tu pedido con el siguiente número de seguimiento:</p>
+                    <p>📮 Puedes seguir tu pedido con el siguiente número de seguimiento:</p>
                     <p class="tracking-number">{{ tracking_number }}</p>
                 </div>
                 {% endif %}
@@ -542,14 +675,14 @@
                 pedido, no dudes en contactarnos.
             </p>
 
-            <a href="{{ order_url }}" class="cta-button">Ver detalles del pedido</a>
+            <a href="{{ order_url|default:'https://avoberry.com.co/orders' }}" class="cta-button">Ver detalles del pedido</a>
 
             <div class="help-section">
-                <h3>¿Necesitas ayuda?</h3>
+                <h3>💚 ¿Necesitas ayuda?</h3>
                 <p>Estamos aquí para asistirte con cualquier pregunta o inquietud.</p>
                 <div class="help-buttons">
-                    <a href="{{ faq_url }}" class="help-button">Preguntas frecuentes</a>
-                    <a href="{{ contact_url }}" class="help-button">Contactar soporte</a>
+                    <a href="{{ faq_url|default:'https://avoberry.com.co/faq' }}" class="help-button">Preguntas frecuentes</a>
+                    <a href="{{ contact_url|default:'https://avoberry.com.co/contacto' }}" class="help-button">Contactar soporte</a>
                 </div>
             </div>
         </div>
@@ -557,19 +690,34 @@
         <div class="divider"></div>
 
         <div class="social-links">
-            <p>Síguenos en redes sociales:</p>
+            <p>🌱 Síguenos en redes sociales 🌱</p>
             <div class="social-icons">
-                <a href="https://facebook.com/avoberry" class="social-icon" target="_blank">f</a>
-                <a href="https://instagram.com/avoberry" class="social-icon" target="_blank">i</a>
-                <a href="https://wa.me/573001112233" class="social-icon" target="_blank">w</a>
+                <a href="https://facebook.com/avoberry" class="social-icon" target="_blank" aria-label="Facebook">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" fill="#10b981"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/avoberry" class="social-icon" target="_blank" aria-label="Instagram">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M16 11.37C16.1234 12.2022 15.9812 13.0522 15.5937 13.799C15.2062 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.908 12.2384 16.0396 11.4077 15.9059C10.5771 15.7723 9.80971 15.3801 9.21479 14.7852C8.61987 14.1903 8.22768 13.4229 8.09406 12.5922C7.96044 11.7616 8.09202 10.9099 8.47028 10.1584C8.84854 9.40686 9.45418 8.7938 10.201 8.40626C10.9478 8.01872 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2648 8.52146 14.8717 9.12833C15.4785 9.73521 15.8741 10.5211 16 11.37Z" stroke="#10b981" stroke-width="1.5"/>
+                        <path d="M17.5 6.5H17.51" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </a>
+                <a href="https://wa.me/573001112233" class="social-icon" target="_blank" aria-label="WhatsApp">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21L4.65 16.65C3.6 15.15 3 13.35 3 11.5C3 6.5 7 2.5 12 2.5C17 2.5 21 6.5 21 11.5C21 16.5 17 20.5 12 20.5C10.15 20.5 8.35 19.9 6.85 18.85L3 21Z" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M8.5 9.5C8.5 9.5 9.5 7.5 12 7.5C14.5 7.5 15.5 9.5 15.5 9.5C15.5 9.5 15.5 12 12.5 12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M12 14.5C10.5 14.5 9.5 13.5 9.5 12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </a>
             </div>
         </div>
 
         <div class="footer">
             <p>Este mensaje fue enviado automáticamente. Por favor, no respondas a este correo.</p>
-            <p>Si tienes alguna pregunta, contáctanos a <a href="mailto:hola@avoberry.com.co">hola@avoberry.com.co</a>
-            </p>
-            <p>&copy; {{ year }} Avoberry. Todos los derechos reservados.</p>
+            <p>Si tienes alguna pregunta, contáctanos a <a href="mailto:hola@avoberry.com.co">hola@avoberry.com.co</a></p>
+            <p>&copy; {{ year|default:"2026" }} Avoberry. Todos los derechos reservados.</p>
         </div>
     </div>
 </div>
