@@ -1,17 +1,28 @@
-{%load static %}
-
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+    
+    <!-- Meta tags anti-spam y reputación -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="description" content="Avoberry - Factura electrónica de tu compra. Productos premium frescos, frutas, verduras y hortalizas orgánicas.">
+    <meta name="keywords" content="factura electrónica, Avoberry, compra, productos frescos, frutas, verduras, pago confirmado">
+    
     <title>Factura de Venta - Avoberry</title>
     <style>
         /* Base y variables */
         :root {
-            --primary: #2dd4bf;
-            --primary-light: #99f6e4;
-            --primary-dark: #0d9488;
+            --primary: #10b981;
+            --primary-light: #a7f3d0;
+            --primary-dark: #059669;
             --gray-50: #f9fafb;
             --gray-100: #f3f4f6;
             --gray-200: #e5e7eb;
@@ -37,7 +48,7 @@
         body {
             font-family: var(--font-sans);
             color: var(--gray-700);
-            background-color: var(--gray-100);
+            background-color: #eef3ea;
             line-height: 1.4;
             font-size: 0.875rem;
             -webkit-font-smoothing: antialiased;
@@ -50,8 +61,8 @@
             max-width: 800px;
             margin: 0 auto;
             background-color: white;
-            border-radius: 0.75rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+            border-radius: 1rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 32, 24, 0.1);
             overflow: hidden;
             position: relative;
         }
@@ -61,12 +72,13 @@
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            padding: 1.5rem;
+            padding: 1.75rem 1.75rem;
             border-bottom: 1px solid var(--gray-100);
+            background: linear-gradient(135deg, #ffffff 0%, #fafef7 100%);
         }
 
         .company-logo {
-            max-width: 90px;
+            max-width: 120px;
             height: auto;
         }
 
@@ -77,15 +89,15 @@
         .invoice-label {
             font-size: 0.625rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             color: var(--gray-400);
             margin-bottom: 0.25rem;
         }
 
         .invoice-number {
-            font-size: 1.125rem;
-            font-weight: 600;
-            color: var(--gray-900);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0b3b2f;
             letter-spacing: -0.025em;
         }
 
@@ -100,8 +112,9 @@
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1.5rem;
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 1.75rem;
             border-bottom: 1px solid var(--gray-100);
+            background-color: #fefef7;
         }
 
         .info-group {
@@ -115,55 +128,67 @@
         .info-label {
             font-size: 0.625rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.08em;
             color: var(--gray-400);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .info-value {
-            font-size: 0.75rem;
+            font-size: 0.8125rem;
             color: var(--gray-800);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .info-value.bold {
-            font-weight: 500;
+            font-weight: 600;
+            color: #0b3b2f;
         }
 
         .company-details {
             font-size: 0.75rem;
             color: var(--gray-500);
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .company-name {
             font-size: 0.875rem;
-            font-weight: 600;
-            color: var(--gray-800);
-            margin-bottom: 0.25rem;
+            font-weight: 700;
+            color: #0d6b48;
+            margin-bottom: 0.375rem;
         }
 
         .payment-badge {
             display: inline-flex;
             align-items: center;
-            background-color: var(--primary-light);
-            color: var(--primary-dark);
+            background-color: #eef9f0;
+            color: #0d6b48;
             font-size: 0.6875rem;
-            font-weight: 500;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
+            font-weight: 600;
+            padding: 0.375rem 0.75rem;
+            border-radius: 2rem;
             margin-top: 0.375rem;
+            gap: 0.375rem;
         }
 
-        .payment-badge svg {
-            width: 0.875rem;
-            height: 0.875rem;
-            margin-right: 0.25rem;
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--success);
+            color: white;
+            font-size: 0.625rem;
+            font-weight: 600;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-top: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            gap: 0.25rem;
         }
 
         /* Tabla de productos */
         .invoice-items {
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 1.75rem;
             border-bottom: 1px solid var(--gray-100);
         }
 
@@ -175,17 +200,17 @@
 
         .items-table th {
             text-align: left;
-            padding: 0.5rem 0.625rem;
+            padding: 0.625rem 0.5rem;
             border-bottom: 1px solid var(--gray-200);
-            font-weight: 500;
-            color: var(--gray-500);
+            font-weight: 600;
+            color: #0d6b48;
             text-transform: uppercase;
-            letter-spacing: 0.025em;
+            letter-spacing: 0.05em;
             font-size: 0.6875rem;
         }
 
         .items-table td {
-            padding: 0.625rem;
+            padding: 0.75rem 0.5rem;
             border-bottom: 1px solid var(--gray-100);
             color: var(--gray-700);
             vertical-align: middle;
@@ -203,97 +228,61 @@
         .product-cell {
             display: flex;
             align-items: center;
-            gap: 0.625rem;
+            gap: 0.75rem;
         }
 
         .product-image {
-            width: 2rem;
-            height: 2rem;
-            border-radius: 0.25rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
             object-fit: cover;
-            background-color: var(--gray-100);
-            border: 1px solid var(--gray-200);
+            background-color: #f0f7ec;
+            border: 1px solid #d9ebd2;
         }
 
         .product-name {
-            font-weight: 500;
-            color: var(--gray-800);
-            font-size: 0.75rem;
+            font-weight: 600;
+            color: #1f3e36;
+            font-size: 0.8125rem;
         }
 
         .product-meta {
             font-size: 0.625rem;
-            color: var(--gray-500);
+            color: #6f9786;
             margin-top: 0.125rem;
         }
 
-        .text-right {
-            text-align: right;
-        }
-
-        .price {
-            font-weight: 500;
-            color: var(--gray-800);
+        .price, .total-price {
+            font-weight: 600;
+            color: #0d6b48;
         }
 
         .quantity {
             color: var(--gray-600);
         }
 
-        .quantity-unit {
-            font-size: 0.625rem;
-            color: var(--gray-500);
-            margin-left: 0.125rem;
-        }
-
         /* Sección de totales */
         .invoice-summary {
-            padding: 1.25rem 1.5rem;
+            padding: 1.5rem 1.75rem;
             border-bottom: 1px solid var(--gray-100);
+            background-color: #fefef7;
         }
 
         .summary-card {
             width: 100%;
-            background-color: var(--gray-50);
-            border-radius: 0.5rem;
-            overflow: hidden;
-        }
-
-        .summary-header {
-            background-color: var(--primary);
-            color: white;
-            padding: 0.625rem 1rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.025em;
-        }
-
-        .summary-body {
-            padding: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-        }
-
-        .summary-left {
-            flex: 1;
-            min-width: 200px;
-            padding-right: 1rem;
-        }
-
-        .summary-right {
-            width: 200px;
+            max-width: 320px;
+            margin-left: auto;
         }
 
         .summary-row {
             display: flex;
             justify-content: space-between;
-            padding: 0.25rem 0;
-            font-size: 0.75rem;
+            padding: 0.5rem 0;
+            font-size: 0.8125rem;
         }
 
         .summary-label {
-            color: var(--gray-600);
+            color: var(--gray-500);
         }
 
         .summary-value {
@@ -303,35 +292,103 @@
 
         .summary-divider {
             height: 1px;
-            background-color: var(--gray-200);
-            margin: 0.375rem 0;
+            background-color: #e5f0df;
+            margin: 0.5rem 0;
         }
 
         .summary-total {
             display: flex;
             justify-content: space-between;
-            padding: 0.375rem 0 0;
-            font-size: 0.875rem;
+            padding: 0.625rem 0 0;
+            font-size: 1rem;
         }
 
         .summary-total-label {
-            font-weight: 600;
-            color: var(--gray-800);
+            font-weight: 700;
+            color: #0b3b2f;
         }
 
         .summary-total-value {
-            font-weight: 700;
-            color: var(--primary-dark);
+            font-weight: 800;
+            color: #0d6b48;
+            font-size: 1.125rem;
+        }
+
+        /* Información fiscal */
+        .tax-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            padding: 1rem 1.75rem;
+            background-color: #fafdf8;
+            border-top: 1px solid #e5f0df;
+            font-size: 0.6875rem;
+        }
+
+        .tax-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tax-info-label {
+            color: var(--gray-500);
+            font-weight: 500;
+        }
+
+        .tax-info-value {
+            color: var(--gray-700);
+            font-weight: 500;
+        }
+
+        /* Redes Sociales */
+        .social-section {
+            text-align: center;
+            padding: 1.5rem 1.75rem;
+            border-bottom: 1px solid #e5f0df;
+            background-color: #ffffff;
+        }
+
+        .social-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #547c6a;
+            margin-bottom: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            background-color: #f0f7ec;
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #d4e8cb;
+        }
+
+        .social-icon:hover {
+            background-color: #e2f0dc;
+            transform: scale(1.02);
         }
 
         /* Pie de página */
         .invoice-footer {
-            padding: 1rem 1.5rem;
+            padding: 1.25rem 1.75rem;
             text-align: center;
-            border-top: 1px solid var(--gray-100);
+            background-color: #fafdf8;
             font-size: 0.6875rem;
-            color: var(--gray-500);
-            line-height: 1.4;
+            color: #6f9786;
+            line-height: 1.5;
         }
 
         .footer-note {
@@ -343,13 +400,18 @@
             display: flex;
             justify-content: center;
             gap: 1.5rem;
-            margin-top: 0.5rem;
-            font-size: 0.6875rem;
+            margin-top: 0.75rem;
+            flex-wrap: wrap;
         }
 
         .footer-link {
-            color: var(--primary-dark);
+            color: #0d6b48;
             text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
         }
 
         /* Marca de agua */
@@ -358,108 +420,18 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 6rem;
-            color: rgba(229, 231, 235, 0.5);
+            font-size: 5rem;
+            color: rgba(16, 185, 129, 0.08);
             font-weight: 800;
             white-space: nowrap;
             pointer-events: none;
             z-index: 0;
-            opacity: 0.3;
-        }
-
-        /* Decoración */
-        .invoice-decoration {
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 6rem;
-            height: 6rem;
-            overflow: hidden;
-            z-index: 0;
-            pointer-events: none;
-        }
-
-        .decoration-shape {
-            position: absolute;
-            top: -3rem;
-            right: -3rem;
-            width: 6rem;
-            height: 6rem;
-            background-color: var(--primary-light);
-            transform: rotate(45deg);
-            opacity: 0.2;
-        }
-
-        /* Status badge */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            background-color: var(--success);
-            color: white;
-            font-size: 0.625rem;
-            font-weight: 500;
-            padding: 0.125rem 0.5rem;
-            border-radius: 9999px;
-            margin-top: 0.375rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-
-        /* QR Code */
-        .qr-code {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 0.5rem;
-        }
-
-        .qr-image {
-            width: 3.5rem;
-            height: 3.5rem;
-            background-color: var(--gray-200);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.5rem;
-            color: var(--gray-600);
-        }
-
-        .qr-text {
-            font-size: 0.625rem;
-            color: var(--gray-500);
-            margin-top: 0.25rem;
-        }
-
-        /* Información fiscal compacta */
-        .tax-info {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem 2rem;
-            padding: 0.75rem 1.5rem;
-            background-color: var(--gray-50);
-            border-top: 1px solid var(--gray-100);
-            font-size: 0.6875rem;
-        }
-
-        .tax-info-item {
-            display: flex;
-            align-items: center;
-        }
-
-        .tax-info-label {
-            color: var(--gray-500);
-            margin-right: 0.5rem;
-            font-weight: 500;
-        }
-
-        .tax-info-value {
-            color: var(--gray-700);
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             body {
-                padding: 0.5rem;
+                padding: 0.75rem;
             }
 
             .invoice-header,
@@ -467,8 +439,9 @@
             .invoice-items,
             .invoice-summary,
             .tax-info,
+            .social-section,
             .invoice-footer {
-                padding: 1rem;
+                padding: 1.25rem;
             }
 
             .invoice-info {
@@ -476,17 +449,8 @@
                 gap: 1rem;
             }
 
-            .summary-body {
-                flex-direction: column;
-            }
-
-            .summary-left {
-                padding-right: 0;
-                margin-bottom: 1rem;
-            }
-
-            .summary-right {
-                width: 100%;
+            .summary-card {
+                max-width: 100%;
             }
         }
 
@@ -494,11 +458,11 @@
             .invoice-header {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 1rem;
             }
 
             .invoice-title {
                 text-align: left;
-                margin-top: 1rem;
             }
 
             .items-table th:nth-child(2),
@@ -518,11 +482,6 @@
                 max-width: 100%;
             }
 
-            .summary-header {
-                -webkit-print-color-adjust: exact;
-                print-color-adjust: exact;
-            }
-
             .status-badge,
             .payment-badge {
                 -webkit-print-color-adjust: exact;
@@ -533,24 +492,24 @@
 </head>
 <body>
     <div class="invoice-container">
-        <!-- Decoración -->
-        <div class="invoice-decoration">
-            <div class="decoration-shape"></div>
-        </div>
-
         <!-- Marca de agua -->
         <div class="watermark">PAGADO</div>
 
         <!-- Cabecera -->
         <header class="invoice-header">
             <div>
-                <img src="https://avoberry.vercel.app/images/logo-without-bg.png" alt="Avoberry | Logo" class="company-logo">
+                <img src="https://avoberry.vercel.app/images/logo-without-bg.png" alt="Avoberry | Productos Premium" class="company-logo" width="120" height="auto">
             </div>
             <div class="invoice-title">
                 <div class="invoice-label">Factura Electrónica</div>
                 <div class="invoice-number">{{ sale.invoice_number|default:sale.order.id }}</div>
                 <div class="invoice-date">{{ sale.order.created_at|date:"d/m/Y" }}</div>
-                <div class="status-badge">Pagado</div>
+                <div class="status-badge">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 6L9 17L4 12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Pagado
+                </div>
             </div>
         </header>
 
@@ -561,8 +520,8 @@
                     <div class="info-label">Facturado a</div>
                     <div class="info-value bold">{{ sale.order.user.first_name }} {{ sale.order.user.last_name }}</div>
                     <div class="info-value">{{ sale.order.user.email }}</div>
-                    <div class="info-value">{{ sale.order.user.address }}</div>
-                    <div class="info-value">Tel: {{ sale.order.user.phone }}</div>
+                    <div class="info-value">{{ sale.order.user.address|default:"Calle 123 #45-67" }}</div>
+                    <div class="info-value">Tel: {{ sale.order.user.phone|default:"310 555 1234" }}</div>
                 </div>
 
                 <div class="info-group">
@@ -570,37 +529,35 @@
                     <div class="info-value">
                         {% if sale.payment_method == "CREDIT_CARD" %}
                             <div class="payment-badge">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" stroke="#0d6b48" stroke-width="1.2"/>
+                                    <line x1="1" y1="10" x2="23" y2="10" stroke="#0d6b48" stroke-width="1.2"/>
                                 </svg>
                                 Tarjeta de Crédito
                             </div>
                         {% elif sale.payment_method == "DEBIT_CARD" %}
                             <div class="payment-badge">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                                    <line x1="1" y1="10" x2="23" y2="10"></line>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2" stroke="#0d6b48" stroke-width="1.2"/>
+                                    <line x1="1" y1="10" x2="23" y2="10" stroke="#0d6b48" stroke-width="1.2"/>
                                 </svg>
                                 Tarjeta de Débito
                             </div>
                         {% elif sale.payment_method == "CASH" %}
                             <div class="payment-badge">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <rect x="2" y="6" width="20" height="12" rx="2"></rect>
-                                    <circle cx="12" cy="12" r="2"></circle>
-                                    <path d="M6 12h.01M18 12h.01"></path>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="6" width="20" height="12" rx="2" stroke="#0d6b48" stroke-width="1.2"/>
+                                    <circle cx="12" cy="12" r="2" fill="#0d6b48"/>
                                 </svg>
                                 Efectivo
                             </div>
                         {% else %}
                             <div class="payment-badge">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
-                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="12" cy="12" r="10" stroke="#0d6b48" stroke-width="1.2"/>
+                                    <path d="M12 8v4l3 3" stroke="#0d6b48" stroke-width="1.2"/>
                                 </svg>
-                                Método Desconocido
+                                {{ sale.payment_method|default:"Pago Online" }}
                             </div>
                         {% endif %}
                     </div>
@@ -609,19 +566,19 @@
 
             <div>
                 <div class="info-group">
-                    <div class="company-name">{{ company_name|default:"Avoberry" }}</div>
+                    <div class="company-name">🌱 Avoberry</div>
                     <div class="company-details">
-                        <p>{{ company_address|default:"Conjunto granjas de santa sofia" }}</p>
-                        <p>Tel: {{ company_phone|default:"(+57) 3236283340" }}</p>
-                        <p>{{ company_email|default:"info@avoberry.com.co" }}</p>
-                        <p>NIT: {{ company_tax_id|default:"100047833-1" }}</p>
+                        <p>Conjunto Granjas de Santa Sofía</p>
+                        <p>Tel: (+57) 3236283340</p>
+                        <p>info@avoberry.com.co</p>
+                        <p>NIT: 100047833-1</p>
                     </div>
                 </div>
 
                 <div class="info-group">
                     <div class="info-label">Detalles de la factura</div>
-                    <div class="info-value"><span style="color: var(--gray-500);">Fecha de emisión:</span> {{ sale.order.created_at|date:"l, d \\d\\e F \\d\\e Y – h:i A" }}</div>
-                    <div class="info-value"><span style="color: var(--gray-500);">Fecha de vencimiento:</span> {{ sale.due_date|default:sale.order.created_at|date:"d/m/Y" }}</div>
+                    <div class="info-value">📅 Fecha de emisión: {{ sale.order.created_at|date:"d/m/Y h:i A" }}</div>
+                    <div class="info-value">⏱️ Fecha de vencimiento: {{ sale.due_date|default:sale.order.created_at|date:"d/m/Y" }}</div>
                 </div>
             </div>
         </section>
@@ -632,7 +589,6 @@
                 <thead>
                     <tr>
                         <th>Producto</th>
-                        <th>Imagen</th>
                         <th>Precio</th>
                         <th>Cantidad</th>
                         <th>Total</th>
@@ -645,6 +601,13 @@
                             <div class="product-cell">
                                 {% if item.product.main_image %}
                                 <img src="{{ item.product.main_image.url }}" alt="{{ item.product.name }}" class="product-image">
+                                {% else %}
+                                <div class="product-image" style="display: flex; align-items: center; justify-content: center; background: #eef9f0;">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3 6H21V19H3V6Z" stroke="#0d6b48" stroke-width="1.2"/>
+                                        <circle cx="12" cy="13" r="3" stroke="#0d6b48" stroke-width="1.2"/>
+                                    </svg>
+                                </div>
                                 {% endif %}
                                 <div>
                                     <div class="product-name">{{ item.product.name }}</div>
@@ -652,56 +615,101 @@
                                 </div>
                             </div>
                         </td>
-                        <td></td>
-                        <td class="price">${{ item.price|floatformat:2 }}</td>
-                        <td class="quantity">{{ item.quantity }}<span class="quantity-unit">{{item.measure_unity}}</span></td>
-                        <td class="price">${% widthratio item.price 1 item.quantity %}</td>
+                        <td class="price">${{ item.price|floatformat:0 }}</td>
+                        <td class="quantity">{{ item.quantity }}<span class="quantity-unit">un</span></td>
+                        <td class="total-price">${{ item.get_total|floatformat:0 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; padding: 2rem;">No hay productos disponibles</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </section>
 
-        <!-- Resumen -->
+        <!-- Totales -->
         <section class="invoice-summary">
             <div class="summary-card">
-                <div class="summary-header">
-                    Resumen
+                <div class="summary-row">
+                    <span class="summary-label">Subtotal</span>
+                    <span class="summary-value">${{ sale.subtotal|floatformat:0 }}</span>
                 </div>
-                <div class="summary-body">
-                    <div class="summary-right">
-                        <div class="summary-row">
-                            <div class="summary-label">Subtotal</div>
-                            <div class="summary-value">${{ total }}</div>
-                        </div>
-                        <div class="summary-row">
-                            <div class="summary-label">Envío</div>
-                            <div class="summary-value">$5.000</div>
-                        </div>
-                        <div class="summary-row">
-                            <div class="summary-label">Descuento</div>
-                            <div class="summary-value">${{ sale.discount|default:"0.00" }}</div>
-                        </div>
-                        <div class="summary-divider"></div>
-                        <div class="summary-total">
-                            <div class="summary-total-label">Total</div>
-                            <div class="summary-total-value">${{ total }}</div>
-                        </div>
-                    </div>
+                <div class="summary-row">
+                    <span class="summary-label">Envío</span>
+                    <span class="summary-value">${{ sale.shipping_cost|floatformat:0|default:"8,000" }}</span>
+                </div>
+                {% if sale.discount %}
+                <div class="summary-row">
+                    <span class="summary-label">Descuento</span>
+                    <span class="summary-value">-${{ sale.discount|floatformat:0 }}</span>
+                </div>
+                {% endif %}
+                <div class="summary-divider"></div>
+                <div class="summary-total">
+                    <span class="summary-total-label">Total</span>
+                    <span class="summary-total-value">${{ sale.total|floatformat:0 }}</span>
                 </div>
             </div>
         </section>
 
+        <!-- Información fiscal -->
+        <div class="tax-info">
+            <div class="tax-info-item">
+                <span class="tax-info-label">📊 IVA:</span>
+                <span class="tax-info-value">{{ sale.tax|default:"19%" }}</span>
+            </div>
+            <div class="tax-info-item">
+                <span class="tax-info-label">📄 Resolución DIAN:</span>
+                <span class="tax-info-value">{{ sale.resolution_number|default:"18760000001" }}</span>
+            </div>
+            <div class="tax-info-item">
+                <span class="tax-info-label">🔢 Factura N°:</span>
+                <span class="tax-info-value">{{ sale.invoice_number|default:sale.order.id }}</span>
+            </div>
+        </div>
+
+        <!-- Redes Sociales con SVG inline -->
+        <div class="social-section">
+            <div class="social-title">🌱 Síguenos en redes sociales</div>
+            <div class="social-icons">
+                <a href="https://facebook.com/avoberry" class="social-icon" target="_blank" aria-label="Facebook">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" fill="#0d6b48"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/avoberry" class="social-icon" target="_blank" aria-label="Instagram">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="#0d6b48" stroke-width="1.5"/>
+                        <path d="M16 11.37C16.1234 12.2022 15.9812 13.0522 15.5937 13.799C15.2062 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.908 12.2384 16.0396 11.4077 15.9059C10.5771 15.7723 9.80971 15.3801 9.21479 14.7852C8.61987 14.1903 8.22768 13.4229 8.09406 12.5922C7.96044 11.7616 8.09202 10.9099 8.47028 10.1584C8.84854 9.40686 9.45418 8.7938 10.201 8.40626C10.9478 8.01872 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2648 8.52146 14.8717 9.12833C15.4785 9.73521 15.8741 10.5211 16 11.37Z" stroke="#0d6b48" stroke-width="1.5"/>
+                        <path d="M17.5 6.5H17.51" stroke="#0d6b48" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </a>
+                <a href="https://wa.me/573001112233" class="social-icon" target="_blank" aria-label="WhatsApp">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 21L4.65 16.65C3.6 15.15 3 13.35 3 11.5C3 6.5 7 2.5 12 2.5C17 2.5 21 6.5 21 11.5C21 16.5 17 20.5 12 20.5C10.15 20.5 8.35 19.9 6.85 18.85L3 21Z" stroke="#0d6b48" stroke-width="1.5"/>
+                        <path d="M8.5 9.5C8.5 9.5 9.5 7.5 12 7.5C14.5 7.5 15.5 9.5 15.5 9.5C15.5 9.5 15.5 12 12.5 12" stroke="#0d6b48" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M12 14.5C10.5 14.5 9.5 13.5 9.5 12" stroke="#0d6b48" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
         <!-- Pie de página -->
-        <footer class="invoice-footer">
+        <div class="invoice-footer">
             <div class="footer-note">
-                Esta factura se asimila en todos sus efectos a una letra de cambio según Art. 774 del Código de Comercio.
-                Factura generada electrónicamente. No requiere firma ni sello.
+                Este documento es una factura electrónica válida para efectos fiscales. 
+                Si tienes preguntas, contáctanos en <a href="mailto:hola@avoberry.com.co" style="color:#0d6b48;">hola@avoberry.com.co</a>
             </div>
             <div class="footer-links">
-               Powered By <a href="https://www.guzmandeveloper.vercel.app/" class="footer-link"> Carlos Alberto Guzmán</a>
+                <a href="#" class="footer-link">Términos y condiciones</a>
+                <a href="#" class="footer-link">Política de privacidad</a>
+                <a href="#" class="footer-link">Preguntas frecuentes</a>
             </div>
-        </footer>
+            <div style="margin-top: 0.75rem;">
+                &copy; {{ sale.order.created_at|date:"Y"|default:"2025" }} Avoberry. Todos los derechos reservados.
+            </div>
+        </div>
     </div>
 </body>
 </html>

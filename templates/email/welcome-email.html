@@ -2,45 +2,59 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>¡Bienvenido a Avoberry!</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="color-scheme" content="light" />
+  <meta name="supported-color-schemes" content="light" />
+  
+  <!-- Meta tags anti-spam y reputación -->
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="googlebot" content="noindex, nofollow" />
+  <meta name="description" content="Avoberry - Bienvenido a tu cuenta. Disfruta de productos premium frescos, orgánicos y de temporada directamente en tu hogar." />
+  <meta name="keywords" content="frutas, verduras, legumbres, hortalizas, productos premium, Avoberry, alimentación saludable, cuenta creada" />
+  
+  <title>¡Bienvenido a Avoberry! · Tu cuenta está lista</title>
+  
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-font-smoothing: antialiased;
     }
 
     body {
       margin: 0;
       padding: 0;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background-color: #f8fafc;
-      color: #334155;
-      line-height: 1.6;
+      background-color: #eef3ea;
+      color: #1f3e36;
+      line-height: 1.5;
     }
 
     .wrapper {
       width: 100%;
-      max-width: 640px;
+      max-width: 600px;
       margin: 0 auto;
-      padding: 20px;
+      padding: 24px 16px 40px;
+      background-color: #eef3ea;
     }
 
     .container {
       background-color: #ffffff;
-      border-radius: 16px;
+      border-radius: 28px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 20px 35px -12px rgba(0, 32, 24, 0.1);
     }
 
     .header {
-      padding: 40px 0;
+      padding: 40px 24px 44px;
       text-align: center;
-      background-color: #10b981;
-      background-image: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      background: linear-gradient(135deg, #0d6b48 0%, #10b981 100%);
       position: relative;
     }
 
@@ -50,73 +64,83 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: url('https://i.imgur.com/8JIrXvx.png');
-      background-size: cover;
-      opacity: 0.1;
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDQwIDQwIj48Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIzIiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDYiLz48Y2lyY2xlIGN4PSIxMiIgY3k9IjgiIHI9IjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzIiIHI9IjIiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==');
+      background-repeat: repeat;
+      background-size: 30px;
+      opacity: 0.12;
+      pointer-events: none;
     }
 
     .logo {
       position: relative;
       z-index: 1;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .logo img {
       width: 140px;
       height: auto;
+      display: block;
+      margin: 0 auto;
     }
 
     .header h1 {
       position: relative;
       z-index: 1;
       margin: 0;
-      font-size: 28px;
-      font-weight: 700;
+      font-size: 30px;
+      font-weight: 800;
       color: white;
       letter-spacing: -0.02em;
+      line-height: 1.2;
     }
 
     .content {
-      padding: 40px 32px;
+      padding: 40px 32px 32px;
       text-align: left;
     }
 
     .content h2 {
-      color: #0f172a;
-      font-size: 20px;
-      font-weight: 600;
+      color: #0b3b2f;
+      font-size: 24px;
+      font-weight: 700;
       margin-bottom: 16px;
+      letter-spacing: -0.3px;
     }
 
     .content p {
-      margin-bottom: 24px;
-      color: #475569;
+      margin-bottom: 20px;
+      color: #2d5a4c;
       font-size: 16px;
+      line-height: 1.55;
     }
 
     .content strong {
-      color: #0f172a;
-      font-weight: 600;
+      color: #0d6b48;
+      font-weight: 700;
     }
 
+    /* Benefits section moderno */
     .benefits {
-      margin: 32px 0;
-      padding: 24px;
-      background-color: #f1f5f9;
-      border-radius: 12px;
+      margin: 32px 0 28px;
+      padding: 28px 24px;
+      background: #fafef7;
+      border-radius: 24px;
+      border: 1px solid #d9ebd2;
     }
 
     .benefits h3 {
-      font-size: 18px;
-      font-weight: 600;
-      color: #0f172a;
-      margin-bottom: 16px;
+      font-size: 20px;
+      font-weight: 700;
+      color: #0b3b2f;
+      margin-bottom: 24px;
+      text-align: center;
     }
 
     .benefit-item {
       display: flex;
       align-items: flex-start;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
 
     .benefit-item:last-child {
@@ -125,97 +149,107 @@
 
     .benefit-icon {
       flex-shrink: 0;
-      width: 24px;
-      height: 24px;
-      margin-right: 12px;
-      background-color: #10b981;
-      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      margin-right: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
-      font-weight: bold;
-      font-size: 14px;
     }
 
     .benefit-text {
       flex: 1;
       font-size: 15px;
-      color: #475569;
+      color: #2d5a4c;
+      line-height: 1.45;
+    }
+
+    .benefit-text strong {
+      color: #0d6b48;
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
     }
 
     .cta-button {
       display: block;
       width: 100%;
-      max-width: 300px;
-      margin: 32px auto;
-      padding: 16px 24px;
-      background-color: #10b981;
+      max-width: 280px;
+      margin: 28px auto 16px;
+      padding: 16px 28px;
+      background: #10b981;
+      background: linear-gradient(95deg, #0d6b48, #10b981);
       color: white;
       text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
+      border-radius: 60px;
+      font-weight: 700;
       font-size: 16px;
       text-align: center;
-      transition: background-color 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 6px 14px rgba(16, 185, 129, 0.25);
     }
 
     .cta-button:hover {
-      background-color: #059669;
+      transform: translateY(-2px);
+      background: linear-gradient(95deg, #0a5a3c, #0d9f6e);
+      box-shadow: 0 8px 18px rgba(16, 185, 129, 0.3);
     }
 
     .divider {
       height: 1px;
-      background-color: #e2e8f0;
-      margin: 32px 0;
+      background: linear-gradient(90deg, transparent, #cde2c4, transparent);
+      margin: 24px 32px;
     }
 
     .social-links {
       text-align: center;
-      margin: 32px 0;
+      margin: 24px 32px 32px;
     }
 
     .social-links p {
-      margin-bottom: 16px;
-      font-size: 15px;
-      color: #64748b;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #547c6a;
+      font-weight: 500;
     }
 
     .social-icons {
       display: flex;
       justify-content: center;
-      gap: 16px;
+      gap: 20px;
+      flex-wrap: wrap;
     }
 
     .social-icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
-      background-color: #f1f5f9;
+      width: 48px;
+      height: 48px;
+      background-color: #f0f7ec;
       border-radius: 50%;
-      color: #10b981;
       text-decoration: none;
-      font-size: 18px;
-      transition: background-color 0.2s;
+      transition: all 0.2s ease;
+      border: 1px solid #d4e8cb;
     }
 
     .social-icon:hover {
-      background-color: #e2e8f0;
+      background-color: #e2f0dc;
+      transform: scale(1.02);
     }
 
     .footer {
-      font-size: 13px;
+      font-size: 12px;
       text-align: center;
-      color: #94a3b8;
-      padding: 24px 32px;
-      border-top: 1px solid #f1f5f9;
-      background-color: #f8fafc;
+      color: #6f9786;
+      padding: 28px 32px 32px;
+      border-top: 1px solid #e5f0df;
+      background-color: #fafdf8;
     }
 
     .footer p {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      line-height: 1.5;
     }
 
     .footer p:last-child {
@@ -223,46 +257,111 @@
     }
 
     .footer a {
-      color: #64748b;
-      text-decoration: underline;
+      color: #0d6b48;
+      text-decoration: none;
+      font-weight: 500;
+      border-bottom: 1px dotted #b9d8ae;
     }
 
-    @media (max-width: 600px) {
+    .footer a:hover {
+      color: #084f36;
+      border-bottom: 1px solid #0d6b48;
+    }
+
+    @media (max-width: 560px) {
       .wrapper {
-        padding: 12px;
+        padding: 12px 12px 32px;
       }
 
       .content {
-        padding: 32px 24px;
+        padding: 32px 24px 28px;
       }
 
       .header {
-        padding: 32px 0;
+        padding: 32px 20px 36px;
       }
 
       .header h1 {
-        font-size: 24px;
+        font-size: 26px;
+      }
+
+      .content h2 {
+        font-size: 22px;
       }
 
       .benefits {
-        padding: 20px;
+        padding: 24px 20px;
       }
+
+      .benefits h3 {
+        font-size: 18px;
+      }
+
+      .benefit-icon {
+        width: 28px;
+        height: 28px;
+        margin-right: 12px;
+      }
+
+      .cta-button {
+        max-width: 260px;
+        padding: 14px 24px;
+        font-size: 15px;
+      }
+
+      .social-icon {
+        width: 44px;
+        height: 44px;
+      }
+
+      .divider {
+        margin: 20px 24px;
+      }
+
+      .social-links {
+        margin: 20px 24px 28px;
+      }
+
+      .footer {
+        padding: 24px 24px 28px;
+      }
+    }
+
+    /* Outlook y clientes específicos */
+    .ExternalClass, .ReadMsgBody {
+      width: 100%;
+      background-color: #eef3ea;
+    }
+    
+    table, td {
+      border-collapse: collapse;
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    
+    img {
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+      -ms-interpolation-mode: bicubic;
     }
   </style>
 </head>
-<body>
+<body style="margin:0; padding:0; background-color:#eef3ea;">
   <div class="wrapper">
     <div class="container">
       <div class="header">
         <div class="header-pattern"></div>
         <div class="logo">
-          <img src="https://avoberry.vercel.app/images/logo-without-bg.png" alt="Avoberry Logo" />
+          <img src="https://avoberry.vercel.app/images/logo.png" alt="Avoberry Logo" width="140" height="auto" style="display:block; margin:0 auto;" />
         </div>
         <h1>¡Bienvenido a Avoberry!</h1>
       </div>
 
       <div class="content">
-        <h2>Hola {{ user |default:"amigo(a)" }},</h2>
+        <h2>Hola {{ user|default:"amigo(a)" }},</h2>
         <p>
           ¡Gracias por unirte a <strong>Avoberry</strong>! Estamos encantados de tenerte con nosotros y queremos darte la bienvenida a nuestra comunidad de amantes de productos frescos y orgánicos.
         </p>
@@ -272,26 +371,44 @@
         </p>
 
         <div class="benefits">
-          <h3>Lo que puedes hacer ahora:</h3>
+          <h3>✨ Lo que puedes hacer ahora ✨</h3>
 
           <div class="benefit-item">
-            <div class="benefit-icon">✓</div>
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#10b981" stroke="#10b981" stroke-width="1.5"/>
+                <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="benefit-text">
-              <strong>Explorar nuestra tienda</strong> con productos frescos, orgánicos y de temporada
+              <strong>Explorar nuestra tienda</strong>
+              Productos frescos, orgánicos y de temporada seleccionados con pasión
             </div>
           </div>
 
           <div class="benefit-item">
-            <div class="benefit-icon">✓</div>
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#10b981" stroke="#10b981" stroke-width="1.5"/>
+                <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="benefit-text">
-              <strong>Recibir en tu hogar</strong> los mejores productos directamente del campo
+              <strong>Recibir en tu hogar</strong>
+              Los mejores productos directamente del campo a tu mesa
             </div>
           </div>
 
           <div class="benefit-item">
-            <div class="benefit-icon">✓</div>
+            <div class="benefit-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="10" fill="#10b981" stroke="#10b981" stroke-width="1.5"/>
+                <path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
             <div class="benefit-text">
-              <strong>Acceder a ofertas exclusivas</strong> y descuentos especiales para miembros
+              <strong>Acceder a ofertas exclusivas</strong>
+              Descuentos especiales y promociones solo para miembros
             </div>
           </div>
         </div>
@@ -300,24 +417,40 @@
           Te invitamos a visitar nuestra tienda y comenzar a disfrutar de la experiencia Avoberry. ¡Estamos seguros que te encantará!
         </p>
 
-        <a href="{{ site_url }}" class="cta-button">Visitar Avoberry</a>
+        <a href="{{ site_url|default:'https://avoberry.com.co' }}" class="cta-button">Visitar Avoberry</a>
       </div>
 
       <div class="divider"></div>
 
       <div class="social-links">
-        <p>Síguenos en redes sociales:</p>
+        <p>🌱 Síguenos en redes sociales 🌱</p>
         <div class="social-icons">
-          <a href="https://facebook.com/avoberry" class="social-icon" target="_blank">f</a>
-          <a href="https://instagram.com/avoberry" class="social-icon" target="_blank">i</a>
-          <a href="https://wa.me/573001112233" class="social-icon" target="_blank">w</a>
+          <a href="https://facebook.com/avoberry" class="social-icon" target="_blank" aria-label="Facebook">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" fill="#10b981" stroke="#10b981" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="https://instagram.com/avoberry" class="social-icon" target="_blank" aria-label="Instagram">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M16 11.37C16.1234 12.2022 15.9812 13.0522 15.5937 13.799C15.2062 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.908 12.2384 16.0396 11.4077 15.9059C10.5771 15.7723 9.80971 15.3801 9.21479 14.7852C8.61987 14.1903 8.22768 13.4229 8.09406 12.5922C7.96044 11.7616 8.09202 10.9099 8.47028 10.1584C8.84854 9.40686 9.45418 8.7938 10.201 8.40626C10.9478 8.01872 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2648 8.52146 14.8717 9.12833C15.4785 9.73521 15.8741 10.5211 16 11.37Z" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M17.5 6.5H17.51" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a href="https://wa.me/573001112233" class="social-icon" target="_blank" aria-label="WhatsApp">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 21L4.65 16.65C3.6 15.15 3 13.35 3 11.5C3 6.5 7 2.5 12 2.5C17 2.5 21 6.5 21 11.5C21 16.5 17 20.5 12 20.5C10.15 20.5 8.35 19.9 6.85 18.85L3 21Z" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M8.5 9.5C8.5 9.5 9.5 7.5 12 7.5C14.5 7.5 15.5 9.5 15.5 9.5C15.5 9.5 15.5 12 12.5 12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M12 14.5C10.5 14.5 9.5 13.5 9.5 12" stroke="#10b981" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
         </div>
       </div>
 
       <div class="footer">
         <p>Este mensaje fue enviado automáticamente. Por favor, no respondas a este correo.</p>
         <p>Si tienes alguna pregunta, contáctanos a <a href="mailto:hola@avoberry.com.co">hola@avoberry.com.co</a></p>
-        <p>&copy; {{ year }} Avoberry. Todos los derechos reservados.</p>
+        <p>&copy; {{ year|default:"2025" }} Avoberry. Todos los derechos reservados.</p>
       </div>
     </div>
   </div>
