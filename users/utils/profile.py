@@ -1,6 +1,5 @@
 from users.models import UserProfileSettings, User
 
-
 def create_user_profile_settings(dni: str) -> bool:
     """
     Creates or retrieves a user profile settings instance based on the user's DNI.
@@ -21,4 +20,3 @@ def create_user_profile_settings(dni: str) -> bool:
     except Exception:
         # Optionally log the error here
         return False
-
