@@ -1,13 +1,21 @@
+from datetime import timedelta
 from io import BytesIO
 import uuid
 from django.db import transaction
 from django.contrib.auth.hashers import make_password
-
+from django.utils import timezone
 # from openpyxl import load_workbook
 from users.models import User
 from openpyxl import load_workbook
-from users.models import User
+from users.models import User, UserProfileSettings, ReferralDiscount
 from users.serializers import BulkCreateUserSerializer
+from users.utils.profile import create_user_profile_settings
+from users.tasks import send_welcome_email
+
+
+def set_discount_is_valid_until():
+    return timezone.now() + timedelta(days=8)
+
 
 
 class ExcelUserParser:
@@ -79,10 +87,32 @@ class UsersBulkCreate:
         serializer = BulkCreateUserSerializer(data=users_data, many=True)
 
         serializer.is_valid(raise_exception=True)
-
         users = [User(**data) for data in serializer.validated_data]
-
+        
         with transaction.atomic():
-            User.objects.bulk_create(users)
+            users = User.objects.bulk_create(users)
 
+            profiles = [
+                UserProfileSettings(user=user)
+                for user in users
+            ]
+
+            referral_discounts = [
+                ReferralDiscount(
+                    user=user,
+                    has_discount=True,
+                    expires_at=set_discount_is_valid_until()
+                )
+                for user in users
+            ]
+
+
+            UserProfileSettings.objects.bulk_create(profiles)
+            ReferralDiscount.objects.bulk_create(referral_discounts)
+
+            transaction.on_commit(lambda: [
+                send_welcome_email.delay(user.email, user.username)
+                for user in users
+            ])
+            
         return {"created": len(users)}
