@@ -13,10 +13,10 @@
     <!-- Meta tags anti-spam y reputación -->
     <meta name="robots" content="noindex, nofollow">
     <meta name="googlebot" content="noindex, nofollow">
-    <meta name="description" content="Avoberry - Factura electrónica de tu compra. Productos premium frescos, frutas, verduras y hortalizas orgánicas.">
-    <meta name="keywords" content="factura electrónica, Avoberry, compra, productos frescos, frutas, verduras, pago confirmado">
+    <meta name="description" content="{{site_name}}- Factura electrónica de tu compra. Productos premium frescos, frutas, verduras y hortalizas orgánicas.">
+    <meta name="keywords" content="factura electrónica, {{site_name}}, compra, productos frescos, frutas, verduras, pago confirmado">
     
-    <title>Factura de Venta - Avoberry</title>
+    <title>Factura de Venta - {{site_name}}</title>
     <style>
         /* Base y variables */
         :root {
@@ -498,7 +498,7 @@
         <!-- Cabecera -->
         <header class="invoice-header">
             <div>
-                <img src="https://avoberry.vercel.app/images/logo-without-bg.png" alt="Avoberry | Productos Premium" class="company-logo" width="120" height="auto">
+                <img src="https://avoberry.vercel.app/images/logo-without-bg.png" alt="{{site_name}} | Productos Premium" class="company-logo" width="120" height="auto">
             </div>
             <div class="invoice-title">
                 <div class="invoice-label">Factura Electrónica</div>
@@ -566,11 +566,11 @@
 
             <div>
                 <div class="info-group">
-                    <div class="company-name">🌱 Avoberry</div>
+                    <div class="company-name">🌱 {{site_name}}</div>
                     <div class="company-details">
-                        <p>Conjunto Granjas de Santa Sofía</p>
-                        <p>Tel: (+57) 3236283340</p>
-                        <p>info@avoberry.com.co</p>
+                        <p>Conjunto Granjas</p>
+                        <p>Tel: (+57) 3231234566</p>
+                        <p>info@{{site_url}}</p>
                         <p>NIT: 100047833-1</p>
                     </div>
                 </div>
@@ -673,12 +673,12 @@
         <div class="social-section">
             <div class="social-title">🌱 Síguenos en redes sociales</div>
             <div class="social-icons">
-                <a href="https://facebook.com/avoberry" class="social-icon" target="_blank" aria-label="Facebook">
+                <a href="https://facebook.com/{{site_name}}" class="social-icon" target="_blank" aria-label="Facebook">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" fill="#0d6b48"/>
                     </svg>
                 </a>
-                <a href="https://instagram.com/avoberry" class="social-icon" target="_blank" aria-label="Instagram">
+                <a href="https://instagram.com/{{site_name}}" class="social-icon" target="_blank" aria-label="Instagram">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="#0d6b48" stroke-width="1.5"/>
                         <path d="M16 11.37C16.1234 12.2022 15.9812 13.0522 15.5937 13.799C15.2062 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.908 12.2384 16.0396 11.4077 15.9059C10.5771 15.7723 9.80971 15.3801 9.21479 14.7852C8.61987 14.1903 8.22768 13.4229 8.09406 12.5922C7.96044 11.7616 8.09202 10.9099 8.47028 10.1584C8.84854 9.40686 9.45418 8.7938 10.201 8.40626C10.9478 8.01872 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2648 8.52146 14.8717 9.12833C15.4785 9.73521 15.8741 10.5211 16 11.37Z" stroke="#0d6b48" stroke-width="1.5"/>
@@ -699,7 +699,7 @@
         <div class="invoice-footer">
             <div class="footer-note">
                 Este documento es una factura electrónica válida para efectos fiscales. 
-                Si tienes preguntas, contáctanos en <a href="mailto:hola@avoberry.com.co" style="color:#0d6b48;">hola@avoberry.com.co</a>
+                Si tienes preguntas, contáctanos en <a href="mailto:hola@{{site_name}}" style="color:#0d6b48;">hola@{{site_url}}</a>
             </div>
             <div class="footer-links">
                 <a href="#" class="footer-link">Términos y condiciones</a>
@@ -707,7 +707,7 @@
                 <a href="#" class="footer-link">Preguntas frecuentes</a>
             </div>
             <div style="margin-top: 0.75rem;">
-                &copy; {{ sale.order.created_at|date:"Y"|default:"2025" }} Avoberry. Todos los derechos reservados.
+                &copy; {{ sale.order.created_at|date:"Y"|default:"2026" }} {{site_name}}. Todos los derechos reservados.
             </div>
         </div>
     </div>

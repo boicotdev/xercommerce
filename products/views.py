@@ -111,21 +111,24 @@ class ProductImportView(APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request):
-        serializer = ProductImportSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+        try:
+            serializer = ProductImportSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
 
-        excel_file = serializer.validated_data["file"]
+            excel_file = serializer.validated_data["file"]
 
-        parser = ExcelProductParser()
-        products_data = parser.parse(excel_file)
+            parser = ExcelProductParser()
+            products_data = parser.parse(excel_file)
 
-        service = ProductBulkCreateService()
-        result = service.execute(products_data)
+            service = ProductBulkCreateService()
+            result = service.execute(products_data)
 
-        return Response(
-            {"message": "Products imported successfully", **result},
-            status=status.HTTP_201_CREATED,
-        )
+            return Response(
+                {"message": "Products imported successfully", **result},
+                status=status.HTTP_201_CREATED,
+            )
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

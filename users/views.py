@@ -3,6 +3,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import get_object_or_404
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.conf import settings
 from rest_framework import status, generics
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
@@ -79,7 +80,8 @@ class UserCreateAPIView(APIView):
             context = {
                 "user": request.data.get("first_name"),
                 "subscriber_name": request.data.get("email"),
-                "site_url": "https://avoberry.vercel.app/",
+                "site_url": settings.SITE_URL,
+                "site_name": settings.SITE_NAME,
                 "year": datetime.datetime.now().year,
             }
 
@@ -88,7 +90,7 @@ class UserCreateAPIView(APIView):
             client_html = render_to_string("email/welcome-email.html", context)
             client_text = strip_tags(client_html)
             send_email_async(
-                'Bienvenido a Avoberry',
+                f'Bienvenido a {settings.SITE_NAME}',
                 client_text,
                 client_html,
                 request.data.get('email')
@@ -125,7 +127,6 @@ class AdminDashboardAPIView(APIView):
                 "data": user_serializer.data,
             }
         )
-
 
 
 class UserDashboardAPIView(APIView):
@@ -174,7 +175,8 @@ class UserDashboardAPIView(APIView):
             context = {
                 "user": request.data.get("first_name"),
                 "subscriber_name": request.data.get("email"),
-                "site_url": "https://avoberry.vercel.app/",
+                "site_url": settings.SITE_URL,
+                "site_name": settings.SITE_NAME,
                 "year": datetime.datetime.now().year,
             }
 
@@ -183,7 +185,7 @@ class UserDashboardAPIView(APIView):
             client_html = render_to_string("email/welcome-email.html", context)
             client_text = strip_tags(client_html)
             send_email_async(
-                'Bienvenido a Avoberry',
+                f'Bienvenido a {settings.SITE_NAME}',
                 client_text,
                 client_html,
                 request.data.get('email')
@@ -349,7 +351,7 @@ class ChangePasswordView(generics.UpdateAPIView):
 
 class NewsletterSubscriptionView(APIView):
     """
-    Endpoint para manejar la suscripción al boletín de Avoberry.
+    Endpoint para manejar la suscripción al boletín de nuevo suscriptor.
     Envía un correo de bienvenida al nuevo suscriptor.
     """
 
@@ -365,7 +367,8 @@ class NewsletterSubscriptionView(APIView):
         email = serializer.validated_data.pop('email')
         context = {
             "subscriber_name": email,
-            "site_url": "https://avoberry.vercel.app/",
+            "site_url": settings.SITE_URL,
+            "site_name": settings.SITE_NAME,
             "year": datetime.datetime.now().year,
         }
 

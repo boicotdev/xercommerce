@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.mail import EmailMultiAlternatives
 from django.db.models import Sum
 from django.template.loader import render_to_string
@@ -38,7 +39,7 @@ def send_email(
         email_msg = EmailMultiAlternatives(
             subject=subject,
             body=text_content,
-            from_email="no-reply@avoberry.com",
+            from_email=f"no-reply@{settings.SITE_URL}",
             to=[email],
         )
         email_msg.attach_alternative(html_content, "text/html")
