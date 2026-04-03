@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.conf import settings
 from rest_framework import status
 from rest_framework.pagination import LimitOffsetPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -16,7 +17,6 @@ from products.models import UnitOfMeasure, Product
 from products.permissions import CanViewOrder
 from users.models import User
 
-SHIPPING_COST = 8000
 
 
 class OrdersFileUploadAPIView(APIView):
@@ -52,7 +52,7 @@ class AdminOrdersAPIView(APIView):
         data = request.data
         required_fields = {"client", "order_items", "is_paid"}
 
-        shipping_cost = data.get("shipping_cost", SHIPPING_COST)
+        shipping_cost = data.get("shipping_cost", settings.SHIPPING_COST)
 
         # Check if all required fields are present
         if not required_fields.issubset(data):

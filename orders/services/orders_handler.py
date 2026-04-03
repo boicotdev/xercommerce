@@ -1,5 +1,6 @@
 from io import BytesIO
 from datetime import datetime
+from django.conf import settings
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from django.db.models import F, Sum, FloatField
@@ -13,7 +14,7 @@ from products.models import Product, UnitOfMeasure
 
 User = get_user_model()
 
-SHIPPING_COST = 8000
+SHIPPING_COST = settings.SHIPPING_COST
 
 VALID_ORDER_STATUS = {
     "PENDING",

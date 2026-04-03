@@ -1,6 +1,6 @@
 import datetime
 import uuid
-
+from django.conf import settings
 import mercadopago
 from decouple import config
 from django.db.transaction import atomic
@@ -19,8 +19,8 @@ from users.models import ReferralDiscount
 from utils.utils import send_email, update_bestseller_status, is_first_purchase
 from .serializers import PaymentSerializer, CouponSerializer
 
-MP_ACCESS_TOKEN = config("MERCADO_PAGO_ACCESS_TOKEN")
-SHIPPING_COST = config("SHIPPING_COST", cast=int, default=5000)
+MP_ACCESS_TOKEN = settings.MERCADO_PAGO_ACCESS_TOKEN
+SHIPPING_COST = settings.SHIPPING_COST
 
 
 class CreatePaymentPreference(APIView):
@@ -129,14 +129,14 @@ class CreatePaymentPreference(APIView):
             },
             "shipments": {"cost": SHIPPING_COST, "mode": "not_specified"},
             "back_urls": {
-                "success": "https://avoberry.vercel.app/checkout/success/",
-                "failure": "https://avoberry.vercel.app/checkout/failure/",
-                "pending": "https://avoberry.vercel.app/checkout/pending/",
+                "success": f"{settings.SITE_URL}/checkout/success/",
+                "failure": f"{settings.SITE_URL}/checkout/failure/",
+                "pending": f"{settings.SITE_URL}/checkout/pending/",
             },
             "auto_return": "approved",
             "notification_url": notification_url
-            or str(config("DEFAULT_NOTIFICATION_URL")),
-            "statement_descriptor": "AVOBERRY",
+            or settings.DEFAULT_NOTIFICATION_URL,
+            "statement_descriptor": settings.SITE_NAME,
             "external_reference": str(order.id),
             "expires": False,
             "payment_methods": {
@@ -303,7 +303,7 @@ class MercadoPagoWebhookView(APIView):
             context = {
                 "user": request.data.get("first_name"),
                 "subscriber_name": request.data.get("email"),
-                "site_url": "https://avoberry.vercel.app/",
+                "site_url": settings.SITE_URL,
                 "year": datetime.datetime.now().year,
                 "order_date": order.created_at,
                 "customer_name": f"{order.user.first_name} {order.user.last_name}",
@@ -316,11 +316,11 @@ class MercadoPagoWebhookView(APIView):
                 "shipping_address": shipping_address,
                 "phone": order.user.phone,
                 "tracking_number": shipping_address.id,
-                "order_url": "https://avoberry.vercel.app/",
-                "faq_url": "https://avoberry.vercel.app/contact",
-                "contact_url": "https://avoberry.vercel.app/contact",
+                "order_url": settings.SITE_URL,
+                "faq_url": f"{settings.SITE_URL}/contact",
+                "contact_url": f"{settings.SITE_URL}/contact",
                 "order_items": items,
-                "image_url": "https://ecommerce-api-v2-production.up.railway.app",
+                "image_url": settings.SITE_URL,
             }
             send_email(
                 "Gracias por tu compra",

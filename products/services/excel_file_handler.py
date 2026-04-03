@@ -4,6 +4,8 @@ from django.db import transaction
 from products.models import Product
 from products.serializers import ProductCreateSerializer
 
+def parse_null_values(value):
+    return None if value in [None, 'Null', 0] else  'None'
 
 class ExcelProductParser:
     """
@@ -28,7 +30,6 @@ class ExcelProductParser:
             # Skip empty rows
             if not row or not row[0]:
                 continue
-
             product = {
                 "sku": str(row[0]).strip(),
                 "name": row[1],
@@ -45,6 +46,7 @@ class ExcelProductParser:
                 "quality": row[12] or "",
                 "weight": float(row[13]) if row[13] is not None else 0,
                 "slug": row[14],
+                "unit_of_measurement": None#parse_null_values(row[15])
             }
 
             products.append(product)

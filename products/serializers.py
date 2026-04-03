@@ -51,6 +51,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
             "quality",
             "weight",
             "slug",
+            "unit_of_measurement"
         ]
 
 

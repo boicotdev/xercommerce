@@ -12,10 +12,10 @@
   <!-- Meta tags anti-spam y reputación -->
   <meta name="robots" content="noindex, nofollow" />
   <meta name="googlebot" content="noindex, nofollow" />
-  <meta name="description" content="Avoberry - Confirmación de pedido. Tu compra ha sido confirmada y está siendo preparada con productos frescos y orgánicos." />
-  <meta name="keywords" content="confirmación de pedido, Avoberry, productos frescos, frutas, verduras, entrega a domicilio" />
+  <meta name="description" content="{{site_name}} - Confirmación de pedido. Tu compra ha sido confirmada y está siendo preparada con productos frescos y orgánicos." />
+  <meta name="keywords" content="confirmación de pedido, {{site_name}}, productos frescos, frutas, verduras, entrega a domicilio" />
   
-  <title>Confirmación de Pedido - Avoberry</title>
+  <title>Confirmación de Pedido - {{site_name}}</title>
   
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
@@ -548,7 +548,7 @@
         <div class="header">
             <div class="header-pattern"></div>
             <div class="logo">
-                <img src="https://avoberry.vercel.app/images/logo.png" alt="Avoberry Logo" width="140" height="auto" style="display:block; margin:0 auto;" />
+                <img src="https://avoberry.vercel.app/images/logo.png" alt="{{site_name}} Logo" width="140" height="auto" style="display:block; margin:0 auto;" />
             </div>
             <h1>¡Pedido Confirmado!</h1>
         </div>
@@ -556,7 +556,7 @@
         <div class="content">
             <h2>Hola {{ customer_name|default:"cliente" }},</h2>
             <p>
-                ¡Gracias por tu compra en <strong>Avoberry</strong>! Hemos recibido tu pedido y lo estamos preparando
+                ¡Gracias por tu compra en <strong>{{site_name}}</strong>! Hemos recibido tu pedido y lo estamos preparando
                 con mucho cuidado para que recibas los productos más frescos directamente en tu hogar.
             </p>
 
@@ -692,12 +692,12 @@
         <div class="social-links">
             <p>🌱 Síguenos en redes sociales 🌱</p>
             <div class="social-icons">
-                <a href="https://facebook.com/avoberry" class="social-icon" target="_blank" aria-label="Facebook">
+                <a href="https://facebook.com/{{site_name}}" class="social-icon" target="_blank" aria-label="Facebook">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M18 2H15C13.6739 2 12.4021 2.52678 11.4645 3.46447C10.5268 4.40215 10 5.67392 10 7V10H7V14H10V22H14V14H17L18 10H14V7C14 6.73478 14.1054 6.48043 14.2929 6.29289C14.4804 6.10536 14.7348 6 15 6H18V2Z" fill="#10b981"/>
                     </svg>
                 </a>
-                <a href="https://instagram.com/avoberry" class="social-icon" target="_blank" aria-label="Instagram">
+                <a href="https://instagram.com/{{site_name}}" class="social-icon" target="_blank" aria-label="Instagram">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17 2H7C4.23858 2 2 4.23858 2 7V17C2 19.7614 4.23858 22 7 22H17C19.7614 22 22 19.7614 22 17V7C22 4.23858 19.7614 2 17 2Z" stroke="#10b981" stroke-width="1.5" stroke-linecap="round"/>
                         <path d="M16 11.37C16.1234 12.2022 15.9812 13.0522 15.5937 13.799C15.2062 14.5458 14.5931 15.1514 13.8416 15.5297C13.0901 15.908 12.2384 16.0396 11.4077 15.9059C10.5771 15.7723 9.80971 15.3801 9.21479 14.7852C8.61987 14.1903 8.22768 13.4229 8.09406 12.5922C7.96044 11.7616 8.09202 10.9099 8.47028 10.1584C8.84854 9.40686 9.45418 8.7938 10.201 8.40626C10.9478 8.01872 11.7978 7.87658 12.63 8C13.4789 8.12588 14.2648 8.52146 14.8717 9.12833C15.4785 9.73521 15.8741 10.5211 16 11.37Z" stroke="#10b981" stroke-width="1.5"/>
@@ -716,8 +716,8 @@
 
         <div class="footer">
             <p>Este mensaje fue enviado automáticamente. Por favor, no respondas a este correo.</p>
-            <p>Si tienes alguna pregunta, contáctanos a <a href="mailto:hola@avoberry.com.co">hola@avoberry.com.co</a></p>
-            <p>&copy; {{ year|default:"2026" }} Avoberry. Todos los derechos reservados.</p>
+            <p>Si tienes alguna pregunta, contáctanos a <a href="mailto:hola@{{site_url}}">hola@{{site_url}}</a></p>
+            <p>&copy; {{ year|default:"2026" }} {{site_name}}. Todos los derechos reservados.</p>
         </div>
     </div>
 </div>

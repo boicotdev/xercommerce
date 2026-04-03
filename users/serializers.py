@@ -93,6 +93,7 @@ class UserSerializer(serializers.ModelSerializer):
             "last_login",
             "is_active",
             "is_superuser",
+            "is_staff",
             "orders",
             "pending_orders_counter",
             "addresses_counter",
