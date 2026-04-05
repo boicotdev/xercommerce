@@ -24,6 +24,9 @@ class Category(models.Model):
     def __str__(self):
         return f"Category: {self.name}"
 
+    class Meta:
+        ordering = ['name']
+
 
 class UnitOfMeasure(models.Model):
     """
@@ -35,7 +38,10 @@ class UnitOfMeasure(models.Model):
     weight = models.IntegerField()
 
     def __str__(self):
-        return f"{self.unity} | ID {self.id} | Weight {self.weight} Lbs"
+        return f"{self.unity} | ID {self.id} | Weight {self.weight} Kgs"
+    
+    class Meta:
+        ordering = ['unity']
 
 
 class Product(models.Model):
@@ -64,6 +70,9 @@ class Product(models.Model):
 
     def __str__(self):
         return f"Product: {self.name} (SKU: {self.sku}, Stock: {self.stock}, Price: ${self.price})"
+
+    class Meta:
+        ordering = ['name', 'sku']
 
 
 
