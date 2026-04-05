@@ -110,7 +110,7 @@ class PurchaseItem(models.Model):
 
         # Apply the sell percentage to the subtotal
         subtotal_with_margin = self.subtotal() + (
-            self.subtotal() * (sell_percentage / 100)
+            self.subtotal() * (1 + sell_percentage / 100)
         )
         cost_by_grams = subtotal_with_margin / (
             self.unit_measure.weight * self.quantity
@@ -134,8 +134,8 @@ class PurchaseItem(models.Model):
 def generate_unique_id(user_dni, purchase=False):
     """
     Generates a unique ID with the following formats:
-    - Order:   "AVBXX9YYYYYYYY" (XX = letters, 9 = number, YYYYYYYY = DNI)
-    - Purchase: "PURCH-AVBXX9YY" (XX = letters, 9 = number, YY = last 2 digits of DNI)
+    - Order:   "ECCXX9YYYYYYYY" (XX = letters, 9 = number, YYYYYYYY = DNI)
+    - Purchase: "PURCH-ECCXX9YY" (XX = letters, 9 = number, YY = last 2 digits of DNI)
     """
 
     while True:
@@ -153,7 +153,7 @@ def generate_unique_id(user_dni, purchase=False):
                 f"{random.choice(string.ascii_uppercase)}"
                 f"{random.randint(0, 9)}"
             )
-            unique_id = f"AVB{prefix}{user_dni}"
+            unique_id = f"ECC{prefix}{user_dni}"
 
             if not Order.objects.filter(id=unique_id).exists():
                 return unique_id

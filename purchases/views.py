@@ -8,7 +8,6 @@ from rest_framework.views import APIView
 
 from products.models import Product, UnitOfMeasure
 from purchases.models import Purchase, PurchaseItem, MissingItems
-from users.models import User
 from purchases.serializers import (
     PurchaseItemSerializer,
     PurchaseSerializer,
@@ -86,7 +85,7 @@ class PurchaseDetailView(RetrieveAPIView):
     serializer_class = PurchaseSerializer
     lookup_field = "id"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         try:
             purchase = self.get_object()
             serializer = self.get_serializer(purchase)
@@ -121,6 +120,7 @@ class PurchaseCreateUpdateView(APIView):
     permission_classes = [IsAdminUser]
 
     def post(self, request):
+        print("data of purchase", request.data)
         required_fields = {"purchase_date", "global_sell_percentage"}
         missing_fields = required_fields - request.data.keys()
         if missing_fields:
