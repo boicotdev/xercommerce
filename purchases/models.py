@@ -38,12 +38,27 @@ class Purchase(models.Model):
         )
         self.save()
 
+    # NUEVOS MÉTODOS - No afectan lógica existente
+    def get_total_cost_without_expenses(self):
+        """Total purchase cost without additional costs."""
+        return sum(item.subtotal() for item in self.purchase_items.all())
+    
+    def get_total_weight_kg(self):
+        """Total weight in kg for all items in purchase."""
+        total = 0
+        for item in self.purchase_items.all():
+            total += item.get_total_weight_kg()
+        return total
+    
+    def get_total_weight_lbs(self):
+        """Total weight in pounds for all items."""
+        return self.get_total_weight_kg() * 2.20462
+
     def __str__(self):
         return f"Purchase {self.id} | Total: ${self.total_amount} | Profit: ${self.estimated_profit}"
-    
+
     class Meta:
         ordering = ['-purchase_date']
-
 
 
 class SuggestedRetailPrice(models.Model):
@@ -55,13 +70,35 @@ class SuggestedRetailPrice(models.Model):
         related_name="related_product",
     )
     suggested_price = models.DecimalField(default=0, max_digits=12, decimal_places=2)
+    
+    price_type = models.CharField(
+        max_length=20,
+        choices=[
+            ('unit', 'Por unidad'),
+            ('kg', 'Por kilogramo'),
+            ('lb', 'Por libra'),
+        ],
+        default='unit',
+        blank=True,
+        null=True
+    )
+
+    def save(self, *args, **kwargs):
+        """Auto-calculate suggested price based on type if price_type is set."""
+        if self.purchase_item and self.price_type:
+            if self.price_type == 'unit':
+                self.suggested_price = self.purchase_item.sale_price_per_unit()
+            elif self.price_type == 'kg':
+                self.suggested_price = self.purchase_item.sale_price_per_kg()
+            elif self.price_type == 'lb':
+                self.suggested_price = self.purchase_item.sale_price_per_lb()
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         if self.purchase_item.product is None:
             return f"Uknown product name - {self.suggested_price}"
-        return f"{self.purchase_item.product.name} - {self.suggested_price}"
-
-
+        type_display = f" ({self.get_price_type_display()})" if self.price_type else ""
+        return f"{self.purchase_item.product.name} - ${self.suggested_price}{type_display}"
 
 class PurchaseItem(models.Model):
     purchase = models.ForeignKey(
@@ -100,24 +137,84 @@ class PurchaseItem(models.Model):
 
     def sale_price_per_weight(self):
         """
-        Calculates the sale price based on:
-        subtotal, unit measure weight, and purchased quantity.
+        Calculates the sale price per unit of measure.
+        Original tenía error en la fórmula.
         """
         if not self.unit_measure or self.unit_measure.weight == 0:
-            return 0  # Prevent division by zero or None errors
+            return 0
 
         sell_percentage = self.get_sell_percentage()
-
-        # Apply the sell percentage to the subtotal
-        subtotal_with_margin = self.subtotal() + (
-            self.subtotal() * (1 + sell_percentage / 100)
-        )
-        cost_by_grams = subtotal_with_margin / (
-            self.unit_measure.weight * self.quantity
-        )
-        pvsp = cost_by_grams * self.unit_measure.weight  # suggested retail price
         
-        return pvsp
+        # Costo total incluyendo gastos adicionales
+        total_cost_with_expenses = self.get_cost_with_additional_expenses()
+        
+        # Precio de venta total con margen
+        total_sale_price = total_cost_with_expenses * (1 + sell_percentage / 100)
+        
+        # Precio por unidad de medida
+        price_per_unit = total_sale_price / self.quantity
+        
+        return price_per_unit
+
+    def get_total_weight_kg(self):
+        """Returns total weight in kg for this purchase item."""
+        if not self.unit_measure or self.unit_measure.weight == 0:
+            return 0
+        return self.unit_measure.weight * self.quantity
+
+    def get_total_weight_lbs(self):
+        """Returns total weight in pounds for this purchase item."""
+        return self.get_total_weight_kg() * 2.20462
+
+    def get_cost_with_additional_expenses(self):
+        """
+        Calculates the cost including proportionally assigned additional expenses.
+        """
+        purchase_total = self.purchase.get_total_cost_without_expenses()
+        if purchase_total == 0:
+            return self.subtotal()
+        
+        proportion = self.subtotal() / purchase_total
+        additional_expenses_assigned = self.purchase.additional_costs * proportion
+        
+        return self.subtotal() + additional_expenses_assigned
+
+    def sale_price_total(self):
+        """
+        Calculates the total sale price for all items of this product,
+        including margin and distributed additional expenses.
+        """
+        cost_with_expenses = self.get_cost_with_additional_expenses()
+        sell_percentage = self.get_sell_percentage()
+        
+        # Apply margin (sell_percentage is the profit margin)
+        sale_price_total = cost_with_expenses * (1 + sell_percentage / 100)
+        
+        return sale_price_total
+
+    def sale_price_per_unit(self):
+        """Sale price per unit of measure (per bulto, per caja, etc.)."""
+        if self.quantity == 0:
+            return 0
+        return self.sale_price_total() / self.quantity
+
+    def sale_price_per_kg(self):
+        """Sale price per kilogram."""
+        total_weight_kg = self.get_total_weight_kg()
+        if total_weight_kg == 0:
+            return 0
+        return self.sale_price_total() / total_weight_kg
+
+    def sale_price_per_lb(self):
+        """Sale price per pound."""
+        return self.sale_price_per_kg() / 2.20462
+
+    def estimated_profit_with_expenses(self):
+        """Calculates estimated profit considering additional expenses."""
+        sell_percentage = self.get_sell_percentage()
+        cost_with_expenses = self.get_cost_with_additional_expenses()
+        profit = cost_with_expenses * (sell_percentage / 100)
+        return profit
 
     def __str__(self):
         if self.product:
@@ -130,12 +227,11 @@ class PurchaseItem(models.Model):
             f"@ ${self.purchase_price} (Sell %: {self.get_sell_percentage()}%)"
         )
 
-
 def generate_unique_id(user_dni, purchase=False):
     """
     Generates a unique ID with the following formats:
     - Order:   "ECCXX9YYYYYYYY" (XX = letters, 9 = number, YYYYYYYY = DNI)
-    - Purchase: "PURCH-ECCXX9YY" (XX = letters, 9 = number, YY = last 2 digits of DNI)
+    - Purchase: "CMP-ECCXX9YY" (XX = letters, 9 = number, YY = last 2 digits of DNI)
     """
 
     while True:
@@ -147,7 +243,7 @@ def generate_unique_id(user_dni, purchase=False):
                 return unique_id
 
         else:
-            # Prefix for orders: AVBXX9YYYYYYYY
+            # Prefix for orders: ECCXX9YYYYYYYY
             prefix = (
                 f"{random.choice(string.ascii_uppercase)}"
                 f"{random.choice(string.ascii_uppercase)}"

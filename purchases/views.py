@@ -129,9 +129,7 @@ class PurchaseCreateUpdateView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        global_sell_percentage = request.data.get(
-            "global_sell_percentage", 10
-        )  # Default 10%
+        global_sell_percentage = request.data.get("global_sell_percentage", 10)  # Default 10%
         if global_sell_percentage < 10:
             return Response(
                 {"error": "Global sell percentage must be at least 10%"},
@@ -166,9 +164,7 @@ class PurchaseCreateUpdateView(APIView):
                         sell_percentage = item.get("sell_percentage")
                         unit_measure = item.get("unity")
 
-                        if not all(
-                            [product_sku, quantity, purchase_price, unit_measure]
-                        ):  
+                        if not all([product_sku, quantity, purchase_price, unit_measure]):
 
                             return Response(
                                 {
