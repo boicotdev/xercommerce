@@ -107,7 +107,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "recommended",
             "best_seller",
             "discount_price",
-            "main_image",
             "category",
             "score",
             "reviews",

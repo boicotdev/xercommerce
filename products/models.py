@@ -63,9 +63,6 @@ class Product(models.Model):
     unit_of_measurement = models.ForeignKey(
         UnitOfMeasure, on_delete=models.SET_NULL, blank=True, null=True
     )
-    main_image = models.ImageField(
-        upload_to="products/", default="products/dummie_image.jpeg"
-    )
 
     def __str__(self):
         return f"Product: {self.name} (SKU: {self.sku}, Stock: {self.stock}, Price: ${self.price})"
@@ -77,6 +74,9 @@ class Product(models.Model):
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image_id = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return f'{self.product.name} - {self.image_id}'
 
 
 class ProductReference(models.Model):
