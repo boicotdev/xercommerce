@@ -3,7 +3,7 @@ from purchases.models import SuggestedRetailPrice
 from reviews.models import ProductReview
 from reviews.serializers import ProductReviewSerializer
 from users.models import User
-from .models import Product, Category, UnitOfMeasure
+from .models import Product, Category, ProductImage, UnitOfMeasure
 
 
 class BaseImportFile(serializers.Serializer):
@@ -20,6 +20,12 @@ class SuggestedRetailPriceSerializer(serializers.ModelSerializer):
     def get_category(self, obj):
         item = obj.purchase_item.product
         return CategorySerializer(Category.objects.filter(product=item).first()).data
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = '__all__'
 
 
 class ProductImportSerializer(BaseImportFile):
@@ -69,9 +75,15 @@ class ProductSerializer(serializers.ModelSerializer):
     category = serializers.SerializerMethodField(read_only=True)
     reviews = serializers.SerializerMethodField(read_only=True)
     weight = serializers.SerializerMethodField(read_only=True)
+    images = serializers.SerializerMethodField(read_only=True)
 
     def get_category(self, obj):
         return obj.category.name if obj.category else None
+
+    def get_images(self, obj):
+        images = ProductImage.objects.filter(product=obj.sku)
+        serializer = ProductImageSerializer(images, many=True)
+        return serializer.data
 
     def get_unit_measure(self, obj):
         return obj.measure_unity.unity if obj.measure_unity else None
@@ -95,10 +107,10 @@ class ProductSerializer(serializers.ModelSerializer):
             "recommended",
             "best_seller",
             "discount_price",
-            "main_image",
             "category",
             "score",
             "reviews",
+            "images",
             "tag",
             "quality",
             "weight",
