@@ -27,7 +27,6 @@ class Category(models.Model):
     class Meta:
         ordering = ['name']
 
-
 class UnitOfMeasure(models.Model):
     """
     Represent a measure unity, a product can be related to `UnitOfMeasure`
@@ -74,6 +73,10 @@ class Product(models.Model):
     class Meta:
         ordering = ['name', 'sku']
 
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
+    image_id = models.CharField(max_length=255)
 
 
 class ProductReference(models.Model):
